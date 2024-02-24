@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+	<!--	RES PARTNER VIEWS    -->
+
+	<!--	TREE VIEW    -->
+	<record id="view_res_partner_tree" model="ir.ui.view">
+		<field name="name">res.partner.tree</field>
+		<field name="model">res.partner.ept</field>
+		<field name="arch" type="xml">
+			<tree string="Partners">
+				<field name="name"/>
+				<field name="email"/>
+				<field name="mobile"/>
+				<field name="city"/>
+				<field name="state"/>
+				<field name="country"/>
+				<field name="zipcode"/>
+			</tree>
+		</field>
+	</record>
+
+
+	<!--	FORM VIEW    -->
+	<record id="view_res_partner_form" model="ir.ui.view">
+		<field name="name">res.partner.form</field>
+		<field name="model">res.partner.ept</field>
+		<field name="arch" type="xml">
+			<form string="Partners">
+				<sheet>
+					<group string="Personal Details">
+						<group>
+							<field name="name"/>
+							<field name="email"/>
+							<field name="mobile"/>
+							<field name="website"/>
+							<field name="parent_id" options="{'no_create': True, 'no_open': True}"/>
+							<field name="active" widget="boolean_toggle"/>
+						</group>
+						<group>
+							<field name="photo" widget="image" options="{'size': [150]}"/>
+						</group>
+					</group>
+					<group string="Address">
+						<group>
+							<field name="street1"/>
+							<field name="street2"/>
+							<field name="zipcode"/>
+						</group>
+						<group>
+							<field name="city" options="{'no_create': True, 'no_open': True}"/>
+							<field name="state" options="{'no_create': True, 'no_open': True}"/>
+							<field name="country" options="{'no_create': True, 'no_open': True}"/>
+						</group>
+					</group>
+					<notebook>
+						<page string="Contacts">
+							<field name="child_ids">
+								<kanban class="o_kanban_module">
+									<field name="id"/>
+									<field name="name"/>
+									<field name="email"/>
+									<field name="mobile"/>
+									<template>
+										<t t-name="kanban-box">
+											<div t-attf-class="oe_kanban_global_click o_kanban_record_has_image_fill o_res_partner_kanban">
+												<div class="o_kanban_image_fill_left d-none d-md-block">
+													<img t-att-src="kanban_image('res.partner.ept', 'photo', record.id.raw_value)"/>
+												</div>
+												<div class="oe_kanban_details">
+													<div>
+														<div class="o_kanban_record_title oe_partner_heading" t="record.name.raw_value"><field name="name"/></div>
+														<div t="record.email.raw_value"><field name="email" widget="email"/></div>
+														<div t="record.email.raw_value"><field name="mobile"/></div>
+													</div>
+												</div>
+											</div>
+										</t>
+									</template>
+								</kanban>
+								<form>
+									<group>
+										<field name="address_type" widget="radio" options="{'horizontal': True}" required="1"/>
+									</group>
+									<group string="Personal Details">
+										<group>
+											<field name="name"/>
+											<field name="email"/>
+											<field name="mobile"/>
+											<field name="website"/>
+											<field name="active" widget="boolean_toggle"/>
+										</group>
+										<group>
+											<field name="photo" widget="image" options="{'size': [150]}"/>
+										</group>
+									</group>
+									<group string="Address">
+										<group>
+											<field name="street1"/>
+											<field name="street2"/>
+											<field name="zipcode"/>
+										</group>
+										<group>
+											<field name="city" options="{'no_create': True, 'no_open': True}"/>
+											<field name="state" options="{'no_create': True, 'no_open': True}"/>
+											<field name="country" options="{'no_create': True, 'no_open': True}"/>
+										</group>
+									</group>
+								</form>
+							</field>
+						</page>
+					</notebook>
+				</sheet>
+			</form>
+		</field>
+	</record>
+
+
+	<!--	SEARCH VIEW    -->
+	<record id="view_res_partner_search" model="ir.ui.view">
+		<field name="name">res.partner.search</field>
+		<field name="model">res.partner.ept</field>
+		<field name="arch" type="xml">
+			<search string="Product UOM">
+				<field name="name"/>
+			</search>
+		</field>
+	</record>
+
+
+
+	<!--	PRODUCT UOM ACTION    -->
+
+	<record id="res_partner_action" model="ir.actions.act_window">
+		<field name="name">Partners</field>
+		<field name="type">ir.actions.act_window</field>
+		<field name="res_model">res.partner.ept</field>
+		<field name="view_mode">tree,form</field>
+		<field name="search_view_id" ref="view_res_partner_search"/>
+		<field name="domain">[('parent_id', '=', False)]</field>
+		<field name="context">{}</field>
+		<field name="help" type="html">
+			<p class="o_view_nocontent_smiling_face">
+				No records are available to show.
+			</p>
+		</field>
+	</record>
+</odoo>

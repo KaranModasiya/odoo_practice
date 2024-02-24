@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+	<record id="module_category_sale_ept" model="ir.module.category">
+		<field name="name">Sale EPT Category</field>
+		<field name="description">To manage sale-orders.</field>
+	</record>
+
+	<record id="group_saleperson" model="res.groups">
+		<field name="name">Saleperson</field>
+		<field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+		<field name="category_id" ref="module_category_sale_ept"/>
+	</record>
+
+	<record id="group_salemanager" model="res.groups">
+		<field name="name">Salemanager</field>
+		<field name="implied_ids" eval="[(4, ref('group_saleperson'))]"/>
+		<field name="category_id" ref="module_category_sale_ept"/>
+        <field name="users" eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"/>
+	</record>
+
+	<data>
+		<record id="rule_own_records" model="ir.rule">
+			<field name="name">Personal Record Rule</field>
+			<field name="model_id" ref="model_sale_order_ept"/>
+			<field name="groups" eval="[(4, ref('group_saleperson'))]"/>
+			<field name="domain_force">[('saleperson_id.id', '=', user.id)]</field>
+		</record>
+
+		<record id="rule_all_records" model="ir.rule">
+			<field name="name">All Record Rule</field>
+			<field name="model_id" ref="model_sale_order_ept"/>
+			<field name="groups" eval="[(4, ref('group_salemanager'))]"/>
+			<field name="domain_force">[(1, '=', 1)]</field>
+		</record>
+	</data>
+</odoo>

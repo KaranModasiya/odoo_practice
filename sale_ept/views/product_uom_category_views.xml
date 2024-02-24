@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+	<!--	PRODUCT UOM CATEGORY VIEWS    -->
+
+	<!--	TREE VIEW    -->
+	<record id="view_product_uom_category_tree" model="ir.ui.view">
+		<field name="name">product.uom.category.tree</field>
+		<field name="model">product.uom.category.ept</field>
+		<field name="arch" type="xml">
+			<tree string="Product UOM Category">
+				<field name="name"/>
+			</tree>
+		</field>
+	</record>
+
+
+	<!--	FORM VIEW    -->
+	<record id="view_product_uom_category_form" model="ir.ui.view">
+		<field name="name">product.uom.category.form</field>
+		<field name="model">product.uom.category.ept</field>
+		<field name="arch" type="xml">
+			<form string="Product UOM Category">
+				<sheet>
+					<group>
+						<field name="name"/>
+					</group>
+					<notebook>
+						<page string="Unit of Measure">
+							<field name="uom_ids">
+								<tree editable="bottom">
+									<field name="name"/>
+								</tree>
+							</field>
+						</page>
+					</notebook>
+				</sheet>
+			</form>
+		</field>
+	</record>
+
+
+	<!--	SEARCH VIEW    -->
+	<record id="view_product_uom_category_search" model="ir.ui.view">
+		<field name="name">product.uom.category.search</field>
+		<field name="model">product.uom.category.ept</field>
+		<field name="arch" type="xml">
+			<search string="Product UOM Category">
+				<field name="name"/>
+			</search>
+		</field>
+	</record>
+
+
+
+	<!--	PRODUCT UOM CATEGORY ACTION    -->
+
+	<record id="product_uom_category_action" model="ir.actions.act_window">
+		<field name="name">Product UOM Category</field>
+		<field name="type">ir.actions.act_window</field>
+		<field name="res_model">product.uom.category.ept</field>
+		<field name="view_mode">tree,form</field>
+		<field name="search_view_id" ref="view_product_uom_category_search"/>
+		<field name="help" type="html">
+			<p class="o_view_nocontent_smiling_face">
+				No records are available to show.
+			</p>
+		</field>
+	</record>
+</odoo>

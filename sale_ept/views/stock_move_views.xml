@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+	<!--	STOCK MOVE VIEWS    -->
+
+	<!--	TREE VIEW    -->
+	<record id="view_stock_move_ept_tree" model="ir.ui.view">
+		<field name="name">stock.move.tree</field>
+		<field name="model">stock.move.ept</field>
+		<field name="arch" type="xml">
+			<tree string="Stock Moves">
+				<field name="product_id"/>
+				<field name="source_location_id"/>
+				<field name="destination_location_id"/>
+				<field name="stock_inventory_id"/>
+				<field name="picking_id"/>
+				<field name="state" widget="badge"
+					   decoration-info="state == 'Draft'"
+					   decoration-success="state == 'Done'"
+					   decoration-danger="state == 'Cancelled'"/>
+			</tree>
+		</field>
+	</record>
+
+
+	<!--	FORM VIEW    -->
+	<record id="view_stock_move_ept_form" model="ir.ui.view">
+		<field name="name">stock.move.form</field>
+		<field name="model">stock.move.ept</field>
+		<field name="arch" type="xml">
+			<form string="Stock Moves">
+				<header>
+					<field name="state" widget="statusbar"/>
+				</header>
+				<sheet>
+					<group>
+						<group>
+							<field name="product_id"/>
+							<field name="uom_id"/>
+							<field name="qty_to_deliver"/>
+							<field name="qty_done"/>
+						</group>
+						<group>
+							<field name="sale_line_id" invisible="purchase_line_id or stock_inventory_id"/>
+							<field name="purchase_line_id" invisible="sale_line_id or stock_inventory_id"/>
+							<field name="stock_inventory_id" invisible="sale_line_id or purchase_line_id"/>
+							<field name="picking_id" invisible="not picking_id"/>
+							<field name="source_location_id"/>
+							<field name="destination_location_id"/>
+						</group>
+					</group>
+					<notebook>
+						<page string="Description">
+							<field name="name"/>
+						</page>
+					</notebook>
+				</sheet>
+			</form>
+		</field>
+	</record>
+
+
+	<!--	SEARCH VIEW    -->
+	<record id="view_stock_move_ept_search" model="ir.ui.view">
+		<field name="name">stock.move.serarch</field>
+		<field name="model">stock.move.ept</field>
+		<field name="arch" type="xml">
+			<search string="Stock Moves">
+				<field name="product_id"/>
+				<field name="source_location_id"/>
+				<field name="destination_location_id"/>
+				<field name="picking_id"/>
+			</search>
+		</field>
+	</record>
+
+
+	<!--	STOCK MOVE ACTIONS    -->
+
+	<record id="stock_move_ept_action" model="ir.actions.act_window">
+		<field name="name">Stock Moves</field>
+		<field name="type">ir.actions.act_window</field>
+		<field name="res_model">stock.move.ept</field>
+		<field name="view_mode">tree,form</field>
+		<field name="search_view_id" ref="view_stock_move_ept_search"/>
+		<field name="help" type="html">
+			<p class="o_view_nocontent_smiling_face">
+				No records are available to show.
+			</p>
+		</field>
+	</record>
+</odoo>

@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+	<!--	STOCK INVENTORY VIEWS    -->
+
+	<!--	TREE VIEW    -->
+	<record id="view_stock_inventory_ept_tree" model="ir.ui.view">
+		<field name="name">stock.inventory.tree</field>
+		<field name="model">stock.inventory.ept</field>
+		<field name="arch" type="xml">
+			<tree string="Stock Location">
+				<field name="name"/>
+				<field name="location_id"/>
+				<field name="inventory_date"/>
+				<field name="state" widget="badge"
+					   decoration-warning="state == 'Draft'"
+					   decoration-info="state == 'In-Progress'"
+					   decoration-success="state == 'Done'"
+					   decoration-danger="state == 'Cancelled'"/>
+			</tree>
+		</field>
+	</record>
+
+
+	<!--	FORM VIEW    -->
+	<record id="view_stock_inventory_ept_form" model="ir.ui.view">
+		<field name="name">stock.inventory.form</field>
+		<field name="model">stock.inventory.ept</field>
+		<field name="arch" type="xml">
+			<form string="Stock Location">
+				<header>
+					<button name="action_start_inventory_button" string="Start Inventory" type="object" class="btn-primary" invisible="state != 'Draft'"/>
+					<button name="action_validate_inventory_button" string="Validate Inventory" type="object" class="btn-primary" invisible="state != 'In-Progress'"/>
+					<button name="action_cancel_inventory_button" string="Cancel Inventory" type="object" class="btn-primary" invisible="state in ('Done', 'Cancelled')"/>
+					<field name="state" widget="statusbar"/>
+				</header>
+				<sheet>
+					<group>
+						<field name="name"/>
+						<field name="location_id" domain="[('location_type', '=', 'Internal')]" options="{'no_create': True}"/>
+						<field name="inventory_date"/>
+					</group>
+					<notebook>
+						<page string="Inventory Lines">
+							<field name="inventory_line_ids">
+								<tree editable="bottom">
+									<field name="product_id" options="{'no_create': True, 'no_open': True}"/>
+									<field name="available_qty" readonly="True"/>
+									<field name="counted_product_qty"/>
+									<field name="difference" readonly="True"/>
+								</tree>
+							</field>
+						</page>
+						<page string="Stock Moves">
+							<field name="stock_move_ids" readonly="True">
+								<tree editable="bottom">
+									<field name="product_id"/>
+									<field name="source_location_id"/>
+									<field name="destination_location_id"/>
+									<field name="state" widget="badge"
+										   decoration-info="state == 'Draft'"
+										   decoration-success="state == 'Done'"
+										   decoration-danger="state == 'Cancelled'"/>
+									<field name="qty_done"/>
+								</tree>
+							</field>
+						</page>
+					</notebook>
+				</sheet>
+			</form>
+		</field>
+	</record>
+
+
+	<!--	SEARCH VIEW    -->
+	<record id="view_stock_inventory_ept_search" model="ir.ui.view">
+		<field name="name">stock.inventory.serarch</field>
+		<field name="model">stock.inventory.ept</field>
+		<field name="arch" type="xml">
+			<search string="Stock Location">
+				<field name="name"/>
+				<field name="location_id"/>
+			</search>
+		</field>
+	</record>
+
+
+	<!--	STOCK INVENTORY ACTIONS    -->
+	
+	<record id="stock_inventory_ept_action" model="ir.actions.act_window">
+		<field name="name">Manage Inventory Stocks</field>
+		<field name="type">ir.actions.act_window</field>
+		<field name="res_model">stock.inventory.ept</field>
+		<field name="view_mode">tree,form</field>
+		<field name="search_view_id" ref="view_stock_inventory_ept_search"/>
+		<field name="help" type="html">
+			<p class="o_view_nocontent_smiling_face">
+				No records are available to show.
+			</p>
+		</field>
+	</record>
+</odoo>

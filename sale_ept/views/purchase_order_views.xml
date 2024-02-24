@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+	<!--	PURCHASE ORDER VIEWS    -->
+
+	<!--	TREE VIEW    -->
+	<record id="view_purchase_order_ept_tree" model="ir.ui.view">
+		<field name="name">purchase.order.tree</field>
+		<field name="model">purchase.order.ept</field>
+		<field name="arch" type="xml">
+			<tree string="Purchase Order">
+				<field name="name"/>
+				<field name="warehouse_id"/>
+				<field name="partner_id"/>
+				<field name="order_date"/>
+				<field name="state" widget="badge"
+					   decoration-warning="state == 'Draft'"
+					   decoration-info="state == 'Confirm'"
+					   decoration-success="state == 'Done'"
+					   decoration-danger="state == 'Cancelled'"/>
+			</tree>
+		</field>
+	</record>
+
+
+	<!--	FORM VIEW    -->
+	<record id="view_purchase_order_ept_form" model="ir.ui.view">
+		<field name="name">purchase.order.form</field>
+		<field name="model">purchase.order.ept</field>
+		<field name="arch" type="xml">
+			<form string="Purchase Order">
+				<header>
+					<button name="action_confirm_order_button" string="Confirm Order" type="object" class="btn-primary" invisible="state != 'Draft'"/>
+					<field name="state" widget="statusbar"/>
+				</header>
+				<sheet>
+					<div class="oe_title">
+						<h1><field name="name" readonly="1"/></h1>
+					</div>
+					<group>
+						<field name="warehouse_id" options="{'no_create': True}"/>
+						<field name="partner_id" options="{'no_create': True}"/>
+						<field name="order_date"/>
+					</group>
+					<notebook>
+						<page string="Order Lines">
+							<field name="purchase_order_line_ids">
+								<tree>
+									<field name="product_id"/>
+									<field name="quantity"/>
+									<field name="cost_price"/>
+									<field name="uom_id"/>
+									<field name="state" widget="badge"
+										   decoration-warning="state == 'Draft'"
+										   decoration-info="state == 'Confirm'"
+										   decoration-success="state == 'Done'"
+										   decoration-danger="state == 'Cancelled'"/>
+									<field name="name"/>
+								</tree>
+								<form>
+									<header>
+										<field name="state" widget="statusbar"/>
+									</header>
+									<sheet>
+										<group>
+											<group>
+												<field name="product_id"/>
+												<field name="quantity"/>
+											</group>
+											<group>
+												<field name="cost_price" readonly="True"/>
+												<field name="uom_id" readonly="True"/>
+											</group>
+											<field name="name"/>
+										</group>
+									</sheet>
+								</form>
+							</field>
+						</page>
+						<page string="Stock Pickings">
+							<field name="picking_ids">
+								<tree editable="bottom">
+									<field name="name"/>
+									<field name="transaction_date"/>
+									<field name="state" widget="badge"
+										   decoration-info="state == 'Confirmed'"
+										   decoration-success="state == 'Done'"
+										   decoration-warning="state == 'Draft'"
+										   decoration-danger="state == 'Cancelled'"/>
+								</tree>
+							</field>
+						</page>
+					</notebook>
+				</sheet>
+			</form>
+		</field>
+	</record>
+
+
+	<!--	SEARCH VIEW    -->
+	<record id="view_purchase_order_ept_search" model="ir.ui.view">
+		<field name="name">purchase.order.serarch</field>
+		<field name="model">purchase.order.ept</field>
+		<field name="arch" type="xml">
+			<search string="Purchase Order">
+				<field name="warehouse_id"/>
+				<field name="partner_id"/>
+				<field name="state"/>
+			</search>
+		</field>
+	</record>
+
+
+	<!--	PURCHASE ORDER ACTIONS    -->
+	
+	<record id="purchase_order_ept_action" model="ir.actions.act_window">
+		<field name="name">Purchase Order</field>
+		<field name="type">ir.actions.act_window</field>
+		<field name="res_model">purchase.order.ept</field>
+		<field name="view_mode">tree,form</field>
+		<field name="search_view_id" ref="view_purchase_order_ept_search"/>
+		<field name="help" type="html">
+			<p class="o_view_nocontent_smiling_face">
+				No records are available to show.
+			</p>
+		</field>
+	</record>
+</odoo>

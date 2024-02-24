@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+	<!--	STOCK PICKING VIEWS    -->
+
+	<!--	TREE VIEW    -->
+	<record id="view_stock_picking_ept_tree" model="ir.ui.view">
+		<field name="name">stock.picking.tree</field>
+		<field name="model">stock.picking.ept</field>
+		<field name="arch" type="xml">
+			<tree string="Stock Picking">
+				<field name="name"/>
+				<field name="partner_id"/>
+				<field name="sale_order_id"/>
+				<field name="purchase_order_id"/>
+				<field name="transaction_date"/>
+				<field name="transaction_type" widget="badge"/>
+				<field name="state" widget="badge"
+					   decoration-info="state == 'Draft'"
+					   decoration-success="state == 'Done'"
+					   decoration-danger="state == 'Cancelled'"/>
+			</tree>
+		</field>
+	</record>
+
+
+	<!--	FORM VIEW    -->
+	<record id="view_stock_picking_ept_form" model="ir.ui.view">
+		<field name="name">stock.picking.form</field>
+		<field name="model">stock.picking.ept</field>
+		<field name="arch" type="xml">
+			<form string="Stock Picking">
+				<header>
+					<button name="action_validate_button" string="Validate" type="object" class="btn-primary" invisible="state != 'Draft'"/>
+					<button name="action_cancel_button" string="Cancel" type="object" class="btn-primary" invisible="state != 'Draft'"/>
+					<field name="state" widget="statusbar"/>
+				</header>
+				<sheet>
+					<div class="oe_title">
+						<h1><field name="name" readonly="1"/></h1>
+					</div>
+					<group>
+						<group>
+							<field name="transaction_type" widget="radio" options="{'horizontal': True}"/>
+							<field name="transaction_date"/>
+						</group>
+						<group>
+							<field name="partner_id" required="1"/>
+							<field name="sale_order_id" invisible="purchase_order_id"/>
+							<field name="purchase_order_id" invisible="sale_order_id"/>
+							<field name="back_order_id" invisible="not back_order_id"/>
+						</group>
+					</group>
+					<notebook>
+						<page string="Stock Moves">
+							<field name="move_ids">
+								<tree string="Stock Moves">
+									<field name="product_id"/>
+									<field name="source_location_id"/>
+									<field name="destination_location_id"/>
+									<field name="state" widget="badge"
+										   decoration-info="state == 'Confirmed'"
+										   decoration-success="state == 'Done'"
+										   decoration-warning="state == 'Draft'"
+										   decoration-danger="state == 'Cancelled'"/>
+								</tree>
+								<form string="Stock Moves">
+									<header>
+										<field name="state" widget="statusbar"/>
+									</header>
+									<sheet>
+										<group>
+											<group>
+												<field name="product_id"/>
+												<field name="uom_id"/>
+												<field name="qty_to_deliver"/>
+												<field name="qty_done"/>
+											</group>
+											<group>
+												<field name="sale_line_id" invisible="purchase_line_id"/>
+												<field name="purchase_line_id" invisible="sale_line_id"/>
+												<field name="source_location_id"/>
+												<field name="destination_location_id"/>
+											</group>
+										</group>
+										<notebook>
+											<page string="Description">
+												<field name="name"/>
+											</page>
+										</notebook>
+									</sheet>
+								</form>
+							</field>
+						</page>
+					</notebook>
+				</sheet>
+			</form>
+		</field>
+	</record>
+
+
+	<!--	SEARCH VIEW    -->
+	<record id="view_stock_picking_ept_search" model="ir.ui.view">
+		<field name="name">stock.picking.serarch</field>
+		<field name="model">stock.picking.ept</field>
+		<field name="arch" type="xml">
+			<search string="Stock Picking">
+				<field name="name"/>
+				<field name="partner_id"/>
+			</search>
+		</field>
+	</record>
+
+
+	<!--	STOCK PICKING ACTIONS    -->
+
+	<!--	STOCK INCOMING    -->
+	<record id="stock_picking_ept_incoming_action" model="ir.actions.act_window">
+		<field name="name">Incoming Shipments</field>
+		<field name="type">ir.actions.act_window</field>
+		<field name="res_model">stock.picking.ept</field>
+		<field name="view_mode">tree,form</field>
+		<field name="search_view_id" ref="view_stock_picking_ept_search"/>
+		<field name="domain">[('transaction_type', '=', 'In')]</field>
+		<field name="context">{'default_transaction_type': 'In'}</field>
+		<field name="help" type="html">
+			<p class="o_view_nocontent_smiling_face">
+				No records are available to show.
+			</p>
+		</field>
+	</record>
+
+	<!--	STOCK OUTCOMING    -->
+	<record id="stock_picking_ept_outcoming_action" model="ir.actions.act_window">
+		<field name="name">Delivery Orders</field>
+		<field name="type">ir.actions.act_window</field>
+		<field name="res_model">stock.picking.ept</field>
+		<field name="view_mode">tree,form</field>
+		<field name="search_view_id" ref="view_stock_picking_ept_search"/>
+		<field name="domain">[('transaction_type', '=', 'Out')]</field>
+		<field name="context">{'default_transaction_type': 'Out'}</field>
+		<field name="help" type="html">
+			<p class="o_view_nocontent_smiling_face">
+				No records are available to show.
+			</p>
+		</field>
+	</record>
+</odoo>

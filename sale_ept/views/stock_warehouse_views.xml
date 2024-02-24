@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+	<!--	STOCK WAREHOUSE VIEWS    -->
+
+	<!--	TREE VIEW    -->
+	<record id="view_stock_warehouse_ept_tree" model="ir.ui.view">
+		<field name="name">stock.warehouse.tree</field>
+		<field name="model">stock.warehouse.ept</field>
+		<field name="arch" type="xml">
+			<tree string="Stock Warehouse">
+				<field name="name"/>
+				<field name="short_code"/>
+				<field name="address_id"/>
+				<field name="view_location_id"/>
+				<field name="stock_location_id"/>
+			</tree>
+		</field>
+	</record>
+
+
+	<!--	FORM VIEW    -->
+	<record id="view_stock_warehouse_ept_form" model="ir.ui.view">
+		<field name="name">stock.warehouse.form</field>
+		<field name="model">stock.warehouse.ept</field>
+		<field name="arch" type="xml">
+			<form string="Stock Warehouse">
+				<sheet>
+					<group>
+						<group>
+							<field name="name"/>
+							<field name="short_code"/>
+							<field name="address_id" options="{'no_open': True, 'no_create': True}"/>
+						</group>
+						<group>
+							<field name="view_location_id" readonly="1" invisible="not view_location_id" options="{'no_open': True}"/>
+							<field name="stock_location_id" readonly="1" invisible="not stock_location_id" options="{'no_open': True}"/>
+						</group>
+					</group>
+				</sheet>
+			</form>
+		</field>
+	</record>
+
+
+	<!--	SEARCH VIEW    -->
+	<record id="view_stock_warehouse_ept_search" model="ir.ui.view">
+		<field name="name">stock.warehouse.serarch</field>
+		<field name="model">stock.warehouse.ept</field>
+		<field name="arch" type="xml">
+			<search string="Stock Warehouse">
+				<field name="name"/>
+				<field name="short_code"/>
+				<field name="address_id"/>
+			</search>
+		</field>
+	</record>
+
+
+	<!--	STOCK WAREHOUSE ACTIONS    -->
+	<record id="stock_warehouse_ept_action" model="ir.actions.act_window">
+		<field name="name">Stock Warehouse</field>
+		<field name="type">ir.actions.act_window</field>
+		<field name="res_model">stock.warehouse.ept</field>
+		<field name="view_mode">tree,form</field>
+		<field name="search_view_id" ref="view_stock_warehouse_ept_search"/>
+		<field name="help" type="html">
+			<p class="o_view_nocontent_smiling_face">
+				No records are available to show.
+			</p>
+		</field>
+	</record>
+</odoo>

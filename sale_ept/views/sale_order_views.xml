@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+	<!--	SALE ORDER VIEWS    -->
+
+	<!--	TREE VIEW    -->
+	<record id="view_sale_order_tree" model="ir.ui.view">
+		<field name="name">sale.order.tree</field>
+		<field name="model">sale.order.ept</field>
+		<field name="arch" type="xml">
+			<tree string="Product UOM">
+				<field name="name"/>
+				<field name="partner_id"/>
+				<field name="partner_invoice_id"/>
+				<field name="partner_shipping_id"/>
+				<field name="order_date"/>
+				<field name="saleperson_id"/>
+				<field name="state" widget="badge"
+				  decoration-info="state == 'Confirmed'"
+				  decoration-success="state == 'Done'"
+				  decoration-warning="state == 'Draft'"
+				  decoration-danger="state == 'Cancelled'"/>
+				<field name="total_weight"/>
+				<field name="total_volume"/>
+				<field name="order_total"/>
+			</tree>
+		</field>
+	</record>
+
+
+	<!--	FORM VIEW    -->
+	<record id="view_sale_order_form" model="ir.ui.view">
+		<field name="name">sale.order.form</field>
+		<field name="model">sale.order.ept</field>
+		<field name="arch" type="xml">
+			<form string="Product UOM">
+				<header>
+					<button name="action_confirm_order_button" string="Confirm Order" type="object" class="btn-primary" invisible="state != 'Draft'"/>
+					<field name="state" widget="statusbar"/>
+				</header>
+				<sheet>
+					<div class="oe_title">
+						<h1><field name="name" readonly="1"/></h1>
+					</div>
+					<group>
+						<group>
+							<field name="partner_id" domain="[('parent_id', '=', False)]" options="{'no_create': True, 'no_open': True}"/>
+							<field name="partner_invoice_id" domain="[('parent_id', '=', partner_id), ('address_type', '=', 'Invoice')]" options="{'no_create': True, 'no_open': True}" required="1"/>
+							<field name="partner_shipping_id" domain="[('parent_id', '=', partner_id), ('address_type', '=', 'Shipping')]" options="{'no_create': True, 'no_open': True}" required="1"/>
+							<field name="warehouse_id" options="{'no_create': True, 'no_open': True}" required="1"/>
+							<field name="lead_id" options="{'no_create': True, 'no_open': True}"/>
+						</group>
+						<group>
+							<field name="order_date"/>
+							<field name="saleperson_id" options="{'no_create': True, 'no_open': True}"/>
+							<field name="total_weight"/>
+							<field name="total_volume"/>
+							<field name="order_total"/>
+						</group>
+					</group>
+					<notebook>
+						<page string="Orderlines">
+							<field name="order_line_ids">
+								<tree>
+									<field name="product_id"/>
+									<field name="quantity"/>
+									<field name="unit_price"/>
+									<field name="uom_id"/>
+									<field name="subtotal_without_tax"/>
+								</tree>
+								<form>
+									<header>
+										<field name="state" widget="statusbar"/>
+									</header>
+									<group>
+										<group>
+											<field name="product_id" options="{'no_create': True, 'no_open': True}"/>
+											<field name="quantity"/>
+											<field name="delivered_qty"/>
+											<field name="cancelled_qty"/>
+										</group>
+										<group>
+											<field name="uom_id" options="{'no_create': True, 'no_open': True}"/>
+											<field name="unit_price" readonly="1"/>
+											<field name="subtotal_without_tax"/>
+										</group>
+									</group>
+									<group>
+										<field name="name"/>
+									</group>
+									<notebook>
+										<page string="Stock Moves">
+											<field name="stock_move_ids">
+												<tree editable="bottom">
+													<field name="source_location_id"/>
+													<field name="destination_location_id"/>
+													<field name="qty_to_deliver"/>
+													<field name="qty_done"/>
+													<field name="state" widget="badge"
+														   decoration-info="state == 'Confirmed'"
+														   decoration-success="state == 'Done'"
+														   decoration-warning="state == 'Draft'"
+														   decoration-danger="state == 'Cancelled'"/>
+												</tree>
+											</field>
+										</page>
+									</notebook>
+								</form>
+							</field>
+						</page>
+						<page string="Stock Pickings">
+							<field name="picking_ids">
+								<tree editable="bottom">
+									<field name="name"/>
+									<field name="transaction_date"/>
+									<field name="state" widget="badge"
+										   decoration-info="state == 'Confirmed'"
+										   decoration-success="state == 'Done'"
+										   decoration-warning="state == 'Draft'"
+										   decoration-danger="state == 'Cancelled'"/>
+								</tree>
+							</field>
+						</page>
+					</notebook>
+				</sheet>
+			</form>
+		</field>
+	</record>
+
+
+	<!--	SEARCH VIEW    -->
+	<record id="view_sale_order_search" model="ir.ui.view">
+		<field name="name">sale.order.search</field>
+		<field name="model">sale.order.ept</field>
+		<field name="arch" type="xml">
+			<search string="Product UOM">
+				<field name="name"/>
+				<field name="partner_id"/>
+				<field name="order_date"/>
+				<group string="Group By">
+					<filter name="group_customer" string="Customer" context="{'group_by': 'partner_id'}"/>
+				</group>
+			</search>
+		</field>
+	</record>
+
+
+
+	<!--	SALE ORDER ACTION    -->
+
+	<record id="sale_order_action" model="ir.actions.act_window">
+		<field name="name">Sale Order</field>
+		<field name="type">ir.actions.act_window</field>
+		<field name="res_model">sale.order.ept</field>
+		<field name="view_mode">tree,form</field>
+		<field name="search_view_id" ref="view_sale_order_search"/>
+		<field name="help" type="html">
+			<p class="o_view_nocontent_smiling_face">
+				No records are available to show.
+			</p>
+		</field>
+	</record>
+</odoo>

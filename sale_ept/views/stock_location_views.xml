@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+	<!--	STOCK LOCATION VIEWS    -->
+
+	<!--	TREE VIEW    -->
+	<record id="view_stock_location_ept_tree" model="ir.ui.view">
+		<field name="name">stock.location.tree</field>
+		<field name="model">stock.location.ept</field>
+		<field name="arch" type="xml">
+			<tree string="Stock Location">
+				<field name="name"/>
+				<field name="parent_id"/>
+				<field name="location_type"/>
+				<field name="is_scrap_location"/>
+			</tree>
+		</field>
+	</record>
+
+
+	<!--	FORM VIEW    -->
+	<record id="view_stock_location_ept_form" model="ir.ui.view">
+		<field name="name">stock.location.form</field>
+		<field name="model">stock.location.ept</field>
+		<field name="arch" type="xml">
+			<form string="Stock Location">
+				<sheet>
+					<group>
+						<group>
+							<field name="name"/>
+							<field name="parent_id"/>
+						</group>
+						<group>
+							<field name="location_type"/>
+							<field name="is_scrap_location"/>
+						</group>
+					</group>
+				</sheet>
+			</form>
+		</field>
+	</record>
+
+
+	<!--	SEARCH VIEW    -->
+	<record id="view_stock_location_ept_search" model="ir.ui.view">
+		<field name="name">stock.location.serarch</field>
+		<field name="model">stock.location.ept</field>
+		<field name="arch" type="xml">
+			<search string="Stock Location">
+				<field name="name"/>
+				<field name="parent_id"/>
+				<filter name="filter_is_scrap_location" string="Scrap Location" domain="[('is_scrap_location', '=', True)]"/>
+			</search>
+		</field>
+	</record>
+
+
+	<!--	STOCK LOCATION ACTIONS    -->
+	
+	<record id="stock_location_ept_action" model="ir.actions.act_window">
+		<field name="name">Stock Location</field>
+		<field name="type">ir.actions.act_window</field>
+		<field name="res_model">stock.location.ept</field>
+		<field name="view_mode">tree,form</field>
+		<field name="search_view_id" ref="view_stock_location_ept_search"/>
+		<field name="help" type="html">
+			<p class="o_view_nocontent_smiling_face">
+				No records are available to show.
+			</p>
+		</field>
+	</record>
+</odoo>

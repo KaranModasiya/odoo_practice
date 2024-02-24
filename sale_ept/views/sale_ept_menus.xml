@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+	<!--	TOP LEVEL MENU    -->
+	<menuitem id="sale_ept_menu_root"
+			  name="My Sales"
+			  web_icon="sale_ept,static/description/icon.png"
+	/>
+
+
+	<!--	SUB MENUS    -->
+	<menuitem id="sale_ept_menu_child_sales"
+			  name="Sales"
+			  parent="sale_ept_menu_root"
+	/>
+
+	<menuitem id="sale_ept_menu_child_categories"
+			  name="Category"
+			  parent="sale_ept_menu_root"
+	/>
+
+	<menuitem id="sale_ept_menu_child_crm"
+			  name="CRM"
+			  parent="sale_ept_menu_root"
+	/>
+
+	<menuitem id="sale_ept_menu_child_inventory"
+			  name="Inventory"
+			  parent="sale_ept_menu_root"
+	/>
+
+	<menuitem id="sale_ept_menu_child_purchase"
+			  name="Purchase"
+			  parent="sale_ept_menu_root"
+	/>
+
+
+	<!--	CATEGORY - CHILD MENUS    -->
+	<menuitem id="sale_ept_menu_sub_child_product_categories"
+			  name="Product Category"
+			  parent="sale_ept_menu_child_categories"
+			  action="product_category_action"
+	/>
+
+	<menuitem id="sale_ept_menu_sub_child_uom_categories"
+			  name="UOM Category"
+			  parent="sale_ept_menu_child_categories"
+			  action="product_uom_category_action"
+	/>
+
+	<menuitem id="sale_ept_menu_sub_child_uom"
+			  name="Product UOM"
+			  parent="sale_ept_menu_child_categories"
+			  action="product_uom_action"
+	/>
+
+
+	<!--	SALES - CHILD MENUS    -->
+	<menuitem id="sale_ept_menu_sub_child_saleorder"
+			  name="Sales Order"
+			  parent="sale_ept_menu_child_sales"
+			  action="sale_order_action"
+	/>
+
+	<menuitem id="sale_ept_menu_sub_child_product"
+			  name="Products"
+			  parent="sale_ept_menu_child_sales"
+			  action="product_action"
+	/>
+
+	<menuitem id="sale_ept_menu_sub_child_partner"
+			  name="Partners"
+			  parent="sale_ept_menu_child_sales"
+			  action="res_partner_action"
+	/>
+
+
+	<!--	CRM - CHILD MENUS    -->
+	<menuitem id="sale_ept_menu_sub_child_crm_team"
+			  name="Sales Team"
+			  parent="sale_ept_menu_child_crm"
+			  action="crm_team_ept_action"
+	/>
+
+	<menuitem id="sale_ept_menu_sub_child_crm_lead"
+			  name="Sales Lead"
+			  parent="sale_ept_menu_child_crm"
+			  action="crm_lead_ept_action"
+	/>
+
+
+	<!--	INVENTORY - CHILD MENUS    -->
+	<menuitem id="sale_ept_menu_sub_child_stock_warehouse"
+			  name="Warehouse"
+			  parent="sale_ept_menu_child_inventory"
+			  action="stock_warehouse_ept_action"
+	/>
+
+	<menuitem id="sale_ept_menu_sub_child_stock_location"
+			  name="Location"
+			  parent="sale_ept_menu_child_inventory"
+			  action="stock_location_ept_action"
+	/>
+
+	<menuitem id="sale_ept_menu_sub_child_incoming_stock"
+			  name="Incoming Shipments"
+			  parent="sale_ept_menu_child_inventory"
+			  action="stock_picking_ept_incoming_action"
+	/>
+
+	<menuitem id="sale_ept_menu_sub_child_outcoming_stock"
+			  name="Delivery Orders"
+			  parent="sale_ept_menu_child_inventory"
+			  action="stock_picking_ept_outcoming_action"
+	/>
+
+	<menuitem id="sale_ept_menu_sub_child_stock_move"
+			  name="Stock Moves"
+			  parent="sale_ept_menu_child_inventory"
+			  action="stock_move_ept_action"
+	/>
+
+	<menuitem id="sale_ept_menu_sub_child_inventory_manage"
+			  name="Inventory Management"
+			  parent="sale_ept_menu_child_inventory"
+			  action="stock_inventory_ept_action"
+	/>
+
+
+	<!--	PURCHASE - CHILD MENUS    -->
+	<menuitem id="sale_ept_menu_sub_child_purchase"
+			  name="Purchase Products"
+			  parent="sale_ept_menu_child_purchase"
+			  action="purchase_order_ept_action"
+	/>
+</odoo>
