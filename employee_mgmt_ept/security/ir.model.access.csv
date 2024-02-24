@@ -1,0 +1,9 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_employee_department_ept_user,User : Employee,model_employee_department_ept,group_mgmt_employee,1,1,1,0
+access_employee_department_shift_ept_user,User : Employee,model_employee_department_shift_ept,group_mgmt_employee,1,1,1,0
+access_employee_mgmt_ept_user,User : Employee,model_employee_ept,group_mgmt_employee,1,1,1,0
+access_employee_leave_ept_user,User : Employee,model_employee_leave_ept,group_mgmt_employee,1,1,1,0
+access_employee_department_ept_manager,Manager : Employee,model_employee_department_ept,group_mgmt_employee_manager,1,1,1,1
+access_employee_department_shift_ept_manager,Manager : Employee,model_employee_department_shift_ept,group_mgmt_employee_manager,1,1,1,1
+access_employee_mgmt_ept_manager,Manager : Employee,model_employee_ept,group_mgmt_employee_manager,1,1,1,1
+access_employee_leave_ept_manager,Manager : Employee,model_employee_leave_ept,group_mgmt_employee_manager,1,1,1,1

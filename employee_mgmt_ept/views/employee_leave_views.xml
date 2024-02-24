@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+	<!--	EMPLOYEE LEAVE EPT VIEWS	-->
+
+	<!--	TREE VIEW	-->
+	<record id="view_employee_leave_ept_tree" model="ir.ui.view">
+		<field name="name">employee.leave.ept.tree</field>
+		<field name="model">employee.leave.ept</field>
+		<field name="arch" type="xml">
+			<tree string="Employee Department"
+				  decoration-info="state == 'Cancelled'"
+				  decoration-success="state == 'Approved'"
+				  decoration-warning="state == 'Draft'"
+				  decoration-danger="state == 'Refused'">
+				<field name="employee_id"/>
+				<field name="department_id"/>
+				<field name="state" widget="badge"
+				  decoration-info="state == 'Cancelled'"
+				  decoration-success="state == 'Approved'"
+				  decoration-warning="state == 'Draft'"
+				  decoration-danger="state == 'Refused'"/>
+				<field name="start_date"/>
+				<field name="end_date"/>
+			</tree>
+		</field>
+	</record>
+
+
+	<!--	FORM VIEW	-->
+	<record id="view_employee_leave_ept_form" model="ir.ui.view">
+		<field name="name">employee.leave.ept.form</field>
+		<field name="model">employee.leave.ept</field>
+		<field name="arch" type="xml">
+			<form string="Employee Department">
+				<header>
+					<field name="state" widget="statusbar" options="{'clickable': '1'}"/>
+				</header>
+				<sheet>
+					<group>
+						<field name="employee_id" options="{'no_open': True}"/>
+						<field name="department_id" options="{'no_open': True}"/>
+						<field name="start_date"/>
+						<field name="end_date"/>
+						<field name="leave_description"/>
+					</group>
+				</sheet>
+			</form>
+		</field>
+	</record>
+
+
+	<!--	SEARCH VIEW	-->
+	<record id="view_employee_leave_ept_search" model="ir.ui.view">
+		<field name="name">employee.leave.ept.search</field>
+		<field name="model">employee.leave.ept</field>
+		<field name="arch" type="xml">
+			<search string="Employee Department">
+				<field name="employee_id"/>
+				<field name="department_id"/>
+				<group string="Group By">
+					<filter name="filter_employee_name" string="Employee" context="{'group_by': 'employee_id'}"/>
+					<filter name="filter_employee_department" string="Department" context="{'group_by': 'department_id'}"/>
+				</group>
+			</search>
+		</field>
+	</record>
+
+
+	<!--	EMPLOYEE LEAVE EPT ACTION	-->
+
+	<record id="employee_leave_action" model="ir.actions.act_window">
+		<field name="name">Employee Leaves</field>
+		<field name="type">ir.actions.act_window</field>
+		<field name="res_model">employee.leave.ept</field>
+		<field name="view_mode">tree,form</field>
+		<field name="search_view_id" ref="view_employee_leave_ept_search"/>
+		<field name="help" type="html">
+			<p class="o_view_nocontent_smiling_face">
+				No records are available to show.
+			</p>
+		</field>
+	</record>
+</odoo>

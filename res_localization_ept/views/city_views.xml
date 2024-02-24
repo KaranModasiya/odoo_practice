@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+	<!--	CITY VIEWS	-->
+
+	<record id="view_city_ept_tree" model="ir.ui.view">
+		<field name="name">city.ept.tree</field>
+		<field name="model">res.city.ept</field>
+		<field name="arch" type="xml">
+			<tree string="Localization" editable="bottom">
+				<field name="name"/>
+				<field name="state_id"/>
+			</tree>
+		</field>
+	</record>
+
+
+	<record id="view_city_ept_search" model="ir.ui.view">
+		<field name="name">city.ept.search</field>
+		<field name="model">res.city.ept</field>
+		<field name="arch" type="xml">
+			<search string="Localization">
+				<field name="name"/>
+				<field name="state_id"/>
+				<group string="Group By">
+					<filter name="group_state" string="State" context="{'group_by': 'state_id'}"/>
+				</group>
+			</search>
+		</field>
+	</record>
+
+	<!--	CITY ACTION	-->
+
+	<record id="localization_ept_city_action" model="ir.actions.act_window">
+		<field name="name">Cities</field>
+		<field name="type">ir.actions.act_window</field>
+		<field name="res_model">res.city.ept</field>
+		<field name="view_mode">tree</field>
+		<field name="search_view_id" ref="view_city_ept_search"/>
+		<field name="help" type="html">
+			<p class="o_view_nocontent_smiling_face">
+				No records are available to show.
+			</p>
+		</field>
+	</record>
+</odoo>

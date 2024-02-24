@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+	<record id="view_student_ept_tree" model="ir.ui.view">
+		<field name="name">student.ept.tree</field>
+		<field name="model">student.ept</field>
+		<field name="arch" type="xml">
+			<tree string="Student">
+				<field name="name"/>
+				<field name="std_class"/>
+				<field name="date_of_birth"/>
+			</tree>
+		</field>
+	</record>
+
+
+	<record id="view_student_ept_form" model="ir.ui.view">
+		<field name="name">student.ept.form</field>
+		<field name="model">student.ept</field>
+		<field name="arch" type="xml">
+			<form string="Student">
+				<sheet>
+					<group>
+						<group>
+							<field name="name"/>
+							<field name="date_of_birth"/>
+						</group>
+						<group>
+							<field name="std_class"/>
+						</group>
+					</group>
+					<notebook>
+						<page string="Course">
+							<field name="course_ids">
+								<tree editable="bottom">
+									<field name="name"/>
+								</tree>
+							</field>
+						</page>
+					</notebook>
+				</sheet>
+			</form>
+		</field>
+	</record>
+
+
+	<record id="view_student_ept_search" model="ir.ui.view">
+		<field name="name">student.ept.search</field>
+		<field name="model">student.ept</field>
+		<field name="arch" type="xml">
+			<search string="Student">
+				<field name="name"/>
+				<field name="std_class"/>
+			</search>
+		</field>
+	</record>
+
+	<record id="student_ept_students_actions" model="ir.actions.act_window">
+		<field name="name">Students</field>
+		<field name="type">ir.actions.act_window</field>
+		<field name="res_model">student.ept</field>
+		<field name="view_mode">tree,form</field>
+		<field name="search_view_id" ref="view_student_ept_search"/>
+		<field name="help" type="html">
+			<p class="o_view_nocontent_smiling_face">
+				No records are available to show.
+			</p>
+		</field>
+	</record>
+</odoo>

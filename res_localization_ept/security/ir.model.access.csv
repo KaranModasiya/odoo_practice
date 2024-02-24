@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_localization_ept_country,User : Localization Country,model_res_country_ept,group_localization_user,1,1,1,0
+access_localization_ept_state,User : Localization State,model_res_state_ept,group_localization_user,1,1,1,0
+access_localization_ept_city,User : Localization City,model_res_city_ept,group_localization_user,1,1,1,0
+access_localization_ept_country_manager,Manager : Localization Country,model_res_country_ept,group_localization_manager,1,1,1,1
+access_localization_ept_state_manager,Manager : Localization State,model_res_state_ept,group_localization_manager,1,1,1,1
+access_localization_ept_city_manager,Manager : Localization City,model_res_city_ept,group_localization_manager,1,1,1,1

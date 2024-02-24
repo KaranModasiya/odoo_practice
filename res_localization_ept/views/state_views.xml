@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+	<!--	STATE VIEWS	-->
+	<record id="view_state_ept_tree" model="ir.ui.view">
+		<field name="name">state.ept.tree</field>
+		<field name="model">res.state.ept</field>
+		<field name="arch" type="xml">
+			<tree string="Localization">
+				<field name="name"/>
+				<field name="code"/>
+				<field name="country_id"/>
+			</tree>
+		</field>
+	</record>
+
+
+	<record id="view_state_ept_form" model="ir.ui.view">
+		<field name="name">state.ept.form</field>
+		<field name="model">res.state.ept</field>
+		<field name="arch" type="xml">
+			<form string="Country">
+				<sheet>
+					<group>
+						<field name="name"/>
+						<field name="code"/>
+						<field name="country_id"/>
+					</group>
+					<notebook>
+						<page string="Cities" name="states">
+							<field name="city_ids">
+								<tree>
+									<field name="name"/>
+								</tree>
+								<form>
+									<group><field name="name"/></group>
+								</form>
+							</field>
+						</page>
+					</notebook>
+				</sheet>
+			</form>
+		</field>
+	</record>
+
+
+	<record id="view_state_ept_search" model="ir.ui.view">
+		<field name="name">state.ept.search</field>
+		<field name="model">res.state.ept</field>
+		<field name="arch" type="xml">
+			<search string="Localization">
+				<field name="name"/>
+				<field name="code"/>
+				<field name="country_id"/>
+				<group string="Group By">
+					<filter name="group_country" string="Country" context="{'group_by': 'country_id'}"/>
+				</group>
+			</search>
+		</field>
+	</record>
+
+	<!--	STATE ACTION	-->
+
+	<record id="localization_ept_state_action" model="ir.actions.act_window">
+		<field name="name">States</field>
+		<field name="type">ir.actions.act_window</field>
+		<field name="res_model">res.state.ept</field>
+		<field name="view_mode">tree,form</field>
+		<field name="search_view_id" ref="view_state_ept_search"/>
+		<field name="help" type="html">
+			<p class="o_view_nocontent_smiling_face">
+				No records are available to show.
+			</p>
+		</field>
+	</record>
+</odoo>

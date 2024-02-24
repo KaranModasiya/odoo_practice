@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+	<menuitem id="student_menu_root"
+			  name="Student Info"
+			  web_icon="student_info_ept,static/description/icon.png"
+	/>
+
+
+	<menuitem id="student_menu_child"
+			  name="Student Details"
+			  parent="student_menu_root"
+	/>
+
+
+	<menuitem id="student_menu_students"
+			  name="Students"
+			  parent="student_menu_child"
+			  action="student_ept_students_actions"
+	/>
+
+
+	<menuitem id="student_menu_child_courses"
+			  name="Courses"
+			  parent="student_menu_child"
+			  action="student_ept_courses_actions"
+	/>
+</odoo>

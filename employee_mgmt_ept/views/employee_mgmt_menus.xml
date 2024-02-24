@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+	<menuitem id="employee_mgmt_ept_menu_root"
+			  name="HR"
+			  web_icon="employee_mgmt_ept,static/description/icon.png"
+	/>
+
+
+	<menuitem id="employee_mgmt_ept_menu_child"
+			  name="Employee"
+			  parent="employee_mgmt_ept_menu_root"
+	/>
+
+
+	<menuitem id="employee_mgmt_ept_menu_child_department"
+			  name="Department"
+			  parent="employee_mgmt_ept_menu_child"
+			  action="employee_department_action"
+	/>
+
+
+	<menuitem id="employee_mgmt_ept_menu_child_shift"
+			  name="Employee Shifts"
+			  parent="employee_mgmt_ept_menu_child"
+			  action="employee_department_shift_action"
+	/>
+
+
+	<menuitem id="employee_mgmt_ept_menu_child_employees"
+			  name="Employees"
+			  parent="employee_mgmt_ept_menu_child"
+			  action="employee_ept_action"
+	/>
+
+
+	<menuitem id="employee_mgmt_ept_menu_child_leave"
+			  name="Leaves"
+			  parent="employee_mgmt_ept_menu_child"
+			  action="employee_leave_action"
+	/>
+</odoo>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+	<menuitem id="localization_menu_root"
+			  name="Localization"
+			  web_icon="res_localization_ept,static/description/icon.png"
+	/>
+
+
+	<menuitem id="localization_menu_child"
+			  name="Localization"
+			  parent="localization_menu_root"
+	/>
+
+
+	<menuitem id="localization_menu_child_countries"
+			  name="Countries"
+			  parent="localization_menu_child"
+			  action="localization_ept_country_action"
+	/>
+
+
+	<menuitem id="localization_menu_child_states"
+			  name="States"
+			  parent="localization_menu_child"
+			  action="localization_ept_state_action"
+	/>
+
+
+	<menuitem id="localization_menu_child_cities"
+			  name="Cities"
+			  parent="localization_menu_child"
+			  action="localization_ept_city_action"
+	/>
+</odoo>

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+	<!--	EMPLOYEE DEPARTMENT EPT VIEWS	-->
+
+	<!--	TREE VIEW	-->
+	<record id="view_employee_department_tree" model="ir.ui.view">
+		<field name="name">employee.department.tree</field>
+		<field name="model">employee.department.ept</field>
+		<field name="arch" type="xml">
+			<tree string="Employee Department">
+				<field name="name"/>
+					<field name="department_manager_id"/>
+			</tree>
+		</field>
+	</record>
+
+
+	<!--	FORM VIEW	-->
+	<record id="view_employee_department_form" model="ir.ui.view">
+		<field name="name">employee.department.form</field>
+		<field name="model">employee.department.ept</field>
+		<field name="arch" type="xml">
+			<form string="Employee Department">
+				<sheet>
+					<group>
+						<field name="name"/>
+						<field name="department_manager_id" options="{'no_create': True, 'no_open': True}"/>
+					</group>
+					<notebook>
+						<page string="Employees">
+							<field name="employee_ids" options="{'no_create': True, 'no_open': True}" readonly="1">
+								<tree>
+									<field name="name"/>
+									<field name="shift_id"/>
+									<field name="job_type"/>
+									<field name="is_manager"/>
+								</tree>
+								<form>
+									<group>
+										<group>
+											<field name="name"/>
+											<field name="shift_id"/>
+										</group>
+										<group>
+											<field name="job_type"/>
+											<field name="is_manager"/>
+										</group>
+									</group>
+								</form>
+							</field>
+						</page>
+					</notebook>
+				</sheet>
+			</form>
+		</field>
+	</record>
+
+
+	<!--	SEARCH VIEW		-->
+	<record id="view_employee_department_search" model="ir.ui.view">
+		<field name="name">employee.department.search</field>
+		<field name="model">employee.department.ept</field>
+		<field name="arch" type="xml">
+			<tree string="Employee Department">
+				<field name="name"/>
+			</tree>
+		</field>
+	</record>
+
+	<!--	EMPLOYEE DEPARTMENT EPT ACTION	-->
+
+	<record id="employee_department_action" model="ir.actions.act_window">
+		<field name="name">Employee Department</field>
+		<field name="type">ir.actions.act_window</field>
+		<field name="res_model">employee.department.ept</field>
+		<field name="view_mode">tree,form</field>
+		<field name="search_view_id" ref="view_employee_department_search"/>
+		<field name="help" type="html">
+			<p class="o_view_nocontent_smiling_face">
+				No records are available to show.
+			</p>
+		</field>
+	</record>
+</odoo>

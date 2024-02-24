@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+	<!--	EMPLOYEE EPT VIEWS	-->
+
+	<!--	TREE VIEW	-->
+	<record id="view_employee_ept_tree" model="ir.ui.view">
+		<field name="name">employee.ept.tree</field>
+		<field name="model">employee.ept</field>
+		<field name="arch" type="xml">
+			<tree string="Employee Department">
+				<field name="name"/>
+				<field name="gender"/>
+				<field name="department_name_id"/>
+				<field name="shift_id"/>
+				<field name="job_position"/>
+				<field name="job_type"/>
+				<field name="hire_date"/>
+				<field name="manager_id"/>
+				<field name="related_user_id"/>
+				<field name="is_manager"/>
+			</tree>
+		</field>
+	</record>
+
+
+	<!--	FORM VIEW	-->
+	<record id="view_employee_ept_form" model="ir.ui.view">
+		<field name="name">employee.ept.form</field>
+		<field name="model">employee.ept</field>
+		<field name="arch" type="xml">
+			<form string="Employee Department">
+				<sheet>
+					<group>
+						<group>
+							<field name="name"/>
+							<field name="gender"/>
+							<field name="department_name_id" options="{'no_create': True, 'no_open': True}"/>
+							<field name="shift_id" options="{'no_create': True, 'no_open': True}"/>
+							<field name="salary"/>
+							<field name="increment_percentage" groups="employee_mgmt_ept.group_mgmt_employee_manager"/>
+						</group>
+						<group>
+							<field name="job_position"/>
+							<field name="job_type"/>
+							<field name="hire_date"/>
+							<field name="manager_id" domain="[('is_manager', '=', True)]" options="{'no_create': True, 'no_open': True}"/>
+							<field name="related_user_id" options="{'no_create': True, 'no_open': True}"/>
+							<field name="is_manager"/>
+						</group>
+					</group>
+					<notebook invisible="is_manager == False">
+						<page string="Employees">
+							<field name="employee_ids" readonly="1">
+								<tree create="false">
+									<field name="name"/>
+									<field name="department_name_id"/>
+									<field name="shift_id"/>
+									<field name="salary"/>
+									<field name="increment_percentage"/>
+									<field name="is_manager"/>
+								</tree>
+							</field>
+						</page>
+					</notebook>
+				</sheet>
+			</form>
+		</field>
+	</record>
+
+
+	<!--	SEARCH VIEW 	-->
+	<record id="view_employee_ept_search" model="ir.ui.view">
+		<field name="name">employee.ept.search</field>
+		<field name="model">employee.ept</field>
+		<field name="arch" type="xml">
+			<search string="Employee Department">
+				<field name="name"/>
+				<field name="department_name_id"/>
+				<field name="job_position"/>
+				<group string="Job Type">
+					<filter name="filter_job_permanent" string="Permanent" domain="[('job_type', '=', 'Permanent')]"/>
+					<filter name="filter_job_ad_hoc" string="Ad Hoc" domain="[('job_type', '=', 'Ad Hoc')]"/>
+				</group>
+				<group string="Group By">
+					<filter name="group_department_name" string="Department" context="{'group_by': 'department_name_id'}"/>
+					<filter name="group_job_type" string="Job Type" context="{'group_by': 'job_type'}"/>
+					<filter name="group_gender" string="Gender" context="{'group_by': 'gender'}"/>
+				</group>
+			</search>
+		</field>
+	</record>
+
+
+	<!--	EMPLOYEE EPT ACTION	-->
+
+	<record id="employee_ept_action" model="ir.actions.act_window">
+		<field name="name">Employees</field>
+		<field name="type">ir.actions.act_window</field>
+		<field name="res_model">employee.ept</field>
+		<field name="view_mode">tree,form</field>
+		<field name="search_view_id" ref="view_employee_ept_search"/>
+		<field name="help" type="html">
+			<p class="o_view_nocontent_smiling_face">
+				No records are available to show.
+			</p>
+		</field>
+	</record>
+</odoo>
