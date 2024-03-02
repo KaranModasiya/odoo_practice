@@ -2,7 +2,7 @@
 	'name': 'Sale Management EPT',
 	'version': '1.0',
 	'author': 'Emipro Technologies',
-	'website': 'http://emiprotechnologies.com',
+	'website': 'https://emiprotechnologies.com',
 	'description': """
 	This module is for Sale management demo.
 	""",
@@ -25,6 +25,8 @@
 		'views/stock_move_views.xml',
 		'views/purchase_order_views.xml',
 		'views/stock_inventory_views.xml',
+		'views/account_tax_views.xml',
+		'wizard/product_stock_update_wizard_views.xml',
 		'views/sale_ept_menus.xml',
 	],
 }

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+	<record id="view_product_stock_update_wizard_form" model="ir.ui.view">
+		<field name="name">product.stock.update.wizard.form</field>
+		<field name="model">product.stock.update.ept</field>
+		<field name="arch" type="xml">
+			<form string="Product Stock Update">
+				<sheet>
+					<group>
+						<field name="location_id" domain="[('location_type', '=', 'Internal')]" options='{"no_open": True, "no_create": True}'/>
+						<field name="active_product_ids" widget="many2many_tags" readonly="True"/>
+					</group>
+					<notebook>
+						<page string="Products">
+							<field name="multi_product_ids">
+								<tree editable="bottom" create="False">
+									<field name="product_id"/>
+									<field name="available_stock"/>
+									<field name="counted_qty"/>
+									<field name="difference"/>
+								</tree>
+							</field>
+						</page>
+					</notebook>
+				</sheet>
+				<footer>
+					<button name="action_update_stock_button" type="object" string="Update Stock" class="btn-primary"/>
+					<button string="Cancel" special="cancel"/>
+				</footer>
+			</form>
+		</field>
+	</record>
+
+
+	<record id="product_stock_update_wizard_action" model="ir.actions.act_window">
+		<field name="name">Product Stock Update</field>
+		<field name="res_model">product.stock.update.ept</field>
+		<field name="view_mode">form</field>
+		<field name="view_id" ref="sale_ept.view_product_stock_update_wizard_form"/>
+		<field name="binding_model_id" ref="model_product_ept"/>
+		<field name="binding_view_types">tree,form</field>
+		<field name="target">new</field>
+	</record>
+</odoo>

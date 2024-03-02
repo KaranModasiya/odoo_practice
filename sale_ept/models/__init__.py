@@ -16,3 +16,4 @@ from . import purchase_order
 from . import purchase_order_line
 from . import stock_inventory
 from . import stock_inventory_line
+from . import account_tax

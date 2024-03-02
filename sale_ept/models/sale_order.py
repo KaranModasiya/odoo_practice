@@ -20,12 +20,15 @@ class SaleOrder(models.Model):
 		('Done', 'Done'),
 		('Cancelled', 'Cancelled')
 		], string="Status", help="Status of the order", default="Draft")
-	total_weight = fields.Float(compute="_compute_total", string="Total Weight", help="Total weight of the order", digits=(6, 2), default=0)
-	total_volume = fields.Float(compute="_compute_total", string="Total Volume", help="Total volume of the order", digits=(6, 2), default=0)
-	order_total = fields.Float(compute="_compute_order_total", string="Order Total", help="Total amount to pay for the order", digits=(6, 2), default=0, store=True)
+	total_weight = fields.Float(compute="_compute_total", string="Total Weight", help="Total weight of the order", digits=(6, 2))
+	total_volume = fields.Float(compute="_compute_total", string="Total Volume", help="Total volume of the order", digits=(6, 2))
+	order_total = fields.Float(compute="_compute_order_total", string="Order Total", help="Total amount without tax for the order", digits=(6, 2), store=True)
 	lead_id = fields.Many2one(comodel_name="crm.lead.ept", string="CRM Lead", help="CRM lead of the order")
 	warehouse_id = fields.Many2one(comodel_name="stock.warehouse.ept", string="Warehouse", help="Warehouse of the order")
 	picking_ids = fields.One2many(comodel_name="stock.picking.ept", inverse_name="sale_order_id", string="Stock Picking", help="Stock pickings of the order", readonly=True)
+	order_stock_moves = fields.Char(string="Stock Moves", help="Stock moves of the order", compute="_compute_stock_moves")
+	total_tax = fields.Float(compute="_compute_total_tax", string="Total Tax", help="Total amount of tax for the order", digits=(6, 2), store=True)
+	total_amount = fields.Float(compute="_compute_total_amount", string="Total Amount", help="Total amount to pay with tax for the order", digits=(6, 2), store=True)
 
 
 	# create method override
@@ -36,26 +39,44 @@ class SaleOrder(models.Model):
 
 
 	# computing total weight and volume
-	@api.depends('order_line_ids')
 	def _compute_total(self):
 		for order in self:
+			order.total_weight = 0
+			order.total_volume = 0
 			for orderline in order.order_line_ids:
 				order.total_weight += orderline.quantity * orderline.product_id.weight
 				order.total_volume += orderline.quantity * orderline.product_id.volume
-			# order.total_weight = sum(orderline.quantity * orderline.product_id.weight for orderline in order.order_line_ids)
-			# order.total_volume = sum(orderline.quantity * orderline.product_id.volume for orderline in order.order_line_ids)
 
 
-	# computing order total amount
+	# computing order total amount without tax
 	@api.depends('order_line_ids')
 	def _compute_order_total(self):
 		"""
-		computing order total amount
+		computing total amount  without tax
 		:return: None
 		"""
 
+		# computing order total amount with tax
 		for rec in self:
 			rec.order_total = sum(rec.order_line_ids.mapped('subtotal_without_tax'))
+
+
+	@api.depends('order_line_ids')
+	def _compute_total_amount(self):
+		for rec in self:
+			rec.total_amount = sum(rec.order_line_ids.mapped('subtotal_with_tax'))
+
+
+
+	# computing total tax amount
+	@api.depends('order_line_ids')
+	def _compute_total_tax(self):
+		"""
+		computing total tax amount
+		:return: None
+		"""
+		for rec in self:
+			rec.total_tax = rec.total_amount - rec.order_total
 
 
 	# setting invoice and shipping address as per partner
@@ -80,39 +101,95 @@ class SaleOrder(models.Model):
 		Creates stock picking record and stock move records.
 		:return: None
 		"""
-		if self.order_line_ids:
-			# checking if there is any location of customer typw
-			customer_location = self.env['stock.location.ept'].search([('location_type', '=', 'Customer')], limit=1)
-			if customer_location:
-				stock_moves = []
+		if not self.order_line_ids:
+			raise ValidationError("Please add some products to confirm order.")
 
-				# changing order lines state to confirm and creating stock moves list for each orderline
-				for line in self.order_line_ids:
+		# checking if there is any location of customer type
+		customer_location = self.env['stock.location.ept'].search([('location_type', '=', 'Customer')], limit=1)
+		if not customer_location:
+			raise ValidationError("System couldn't find Customer location, confirm operation cannot be completed")
+
+		# if warehouse_id is empty in orderline it will assign from sale order warehouse_id
+		# self.order_line_ids.filtered_domain([('warehouse_id', '=', False)]).warehouse_id = self.warehouse_id
+
+		# warehouse_list = [line.warehouse_id.id for line in self.order_line_ids]
+		# warehouse_list.append(self.warehouse_id.id) if False in warehouse_list and self.warehouse_id.id not in warehouse_list else None
+
+		warehouse_list = self.order_line_ids.warehouse_id.ids
+		# warehouse_list.append(self.warehouse_id.id) if self.warehouse_id.id not in warehouse_list else None
+		self.warehouse_id.id not in warehouse_list and warehouse_list.append(self.warehouse_id.id)
+
+		# generating delivery order for each warehouse in saleorder_line
+		for warehouse in self.warehouse_id.browse(warehouse_list):
+			if warehouse != self.warehouse_id:
+				filtered_lines = self.order_line_ids.filtered_domain([('warehouse_id', '=', warehouse.id)])
+			else:
+				filtered_lines = self.order_line_ids.filtered_domain(['|', ('warehouse_id', '=', warehouse.id), ('warehouse_id.id', '=', False)])
+
+			# changing order lines state to confirm and creating stock moves list for same warehouse
+			if filtered_lines:
+				stock_moves = []
+				for line in filtered_lines:
 					# creating stock move
 					stock_moves.append(Command.create({
-						'name': f"{line.product_id.name} - {self.warehouse_id.stock_location_id.name} -> {customer_location.name}",
+						'name': f"{line.product_id.name} - {warehouse.stock_location_id.name} -> {customer_location.name}",
 						'product_id': line.product_id.id,
 						'uom_id': line.uom_id.id,
 						'qty_to_deliver': line.quantity,
 						'qty_done': 0,
 						'sale_line_id': line.id,
 						'state': 'Draft',
-						'source_location_id': self.warehouse_id.stock_location_id.id,
+						'source_location_id': warehouse.stock_location_id.id,
 						'destination_location_id': customer_location.id,
 						}))
 					line.state = 'Confirmed'
 
-				# generating stock picking record
-				stock_pick = self.env['stock.picking.ept'].create({
+				# generating stock picking record for warehouse
+				self.env['stock.picking.ept'].create({
 					'partner_id': self.partner_shipping_id.id,
 					'transaction_type': 'Out',
 					'move_ids': stock_moves,
 					'sale_order_id': self.id,
 					})
 
-				# changing sale order state to confirm
-				self.state = 'Confirmed'
+		# changing sale order state to confirm
+		self.state = 'Confirmed'
+
+
+	def action_view_delivery(self):
+		action = self.env['ir.actions.act_window']._for_xml_id("sale_ept.stock_picking_ept_outcoming_action")
+		delivery_count = len(self.picking_ids.ids)
+
+		if not delivery_count:
+			raise ValidationError('No Records Found')
+
+		if delivery_count > 1:
+			action['domain'] = [('sale_order_id', '=', self.id)]
+		elif delivery_count == 1:
+			action['views'] = [(self.env.ref('sale_ept.view_stock_picking_ept_form').id, 'form')]
+			action['res_id'] = self.picking_ids.ids[0]
+
+		return action
+
+
+	def _compute_stock_moves(self):
+		for order in self:
+			count = self.env['stock.move.ept'].search_count([('picking_id', 'in', self.picking_ids.ids)])
+			if not count:
+				order.order_stock_moves = 'No records'
+			elif count == 1:
+				order.order_stock_moves = str(count) + ' record'
 			else:
-				raise ValidationError("System couldn't find Customer location, confirm operation cannot be completed")
+				order.order_stock_moves = str(count) + ' records'
+
+
+	def action_view_moves(self):
+		action = self.env['ir.actions.act_window']._for_xml_id("sale_ept.stock_move_ept_action")
+		delivery_count = len(self.picking_ids.ids)
+
+		if not delivery_count:
+			raise ValidationError('No Records Found')
 		else:
-			raise ValidationError("Please add some products to confirm order.")
+			action['domain'] = [('picking_id', 'in', self.picking_ids.ids)]
+
+		return action

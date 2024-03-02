@@ -1,5 +1,6 @@
 from odoo import fields, models, api
 
+
 class Product(models.Model):
 
 	_name = 'product.ept'
@@ -21,6 +22,8 @@ class Product(models.Model):
 	uom_id = fields.Many2one(comodel_name="product.uom.ept", string="UOM", help="Unit of Measure of the product")
 	description = fields.Text(string="Description", help="Description of the product")
 	product_stock = fields.Float(compute="_compute_stock", string="Product Stock", help="Stock of the product", digits=(0, 2), store=False)
+	parent_ids = fields.Many2many(comodel_name="product.category.ept", compute='_compute_parent_ids', string="parent id", help="parent id many2many")
+	tax_ids = fields.Many2many(comodel_name="account.tax.ept", string="Customer Taxes", help="Tax applied on the product")
 
 
 	def _compute_stock(self):
@@ -28,23 +31,33 @@ class Product(models.Model):
 		computes available stock of the product.
 		:return: None
 		"""
-		stock_location_ids = self.env['stock.warehouse.ept'].search([]).stock_location_id.ids
+		location = self.env.context.get('location')
+		stock_location_ids = [location] if location else self.env['stock.warehouse.ept'].search([]).stock_location_id.ids
 		move = self.env['stock.move.ept']
 
 		for product in self:
-			product.product_stock = 0
-			location = self.env.context.get('location')
-			if location:
-				product.product_stock = sum(move.search([('destination_location_id', '=', location), ('product_id', '=', product.id), ('state', '=', 'Done')]).mapped('qty_done'))
-				product.product_stock -= sum(move.search([('source_location_id', '=', location), ('product_id', '=', product.id), ('state', '=', 'Done')]).mapped('qty_done'))
+			incoming = sum(move.search([('destination_location_id', 'in', stock_location_ids), ('product_id', '=', product.id), ('state', '=', 'Done')]).mapped('qty_done'))
+			outgoing = sum(move.search([('source_location_id', 'in', stock_location_ids), ('product_id', '=', product.id), ('state', '=', 'Done')]).mapped('qty_done'))
 
-			else:
-				incoming, outgoing = 0, 0
-				# for stock_location in stock_location_ids:
-				# 	product.product_stock += sum(move.search([('destination_location_id', '=', stock_location.id), ('product_id', '=', product.id), ('state', '=', 'Done')]).mapped('qty_done'))
-				# 	product.product_stock -= sum(move.search([('source_location_id', '=', stock_location.id), ('product_id', '=', product.id), ('state', '=', 'Done')]).mapped('qty_done'))
+			product.product_stock = incoming - outgoing
 
-				incoming += sum(move.search([('destination_location_id', 'in', stock_location_ids), ('product_id', '=', product.id), ('state', '=', 'Done')]).mapped('qty_done'))
-				outgoing += sum(move.search([('source_location_id', 'in', stock_location_ids), ('product_id', '=', product.id), ('state', '=', 'Done')]).mapped('qty_done'))
 
-				product.product_stock = incoming - outgoing
+	@property
+	def action_update_stock_button(self):
+		return self.env['ir.actions.act_window']._for_xml_id('sale_ept.product_stock_update_wizard_action')
+
+
+	@api.depends('category_id')
+	def _compute_parent_ids(self):
+		for rec in self:
+			rec.parent_ids = rec.find_childs(rec.category_id)
+
+
+	def find_childs(self, category):
+		if category.child_ids:
+			res = category
+			for child in category.child_ids:
+				res = res + self.find_childs(child)
+			return res
+		else:
+			return category

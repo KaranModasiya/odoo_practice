@@ -25,6 +25,7 @@ class PurchaseOrder(models.Model):
 		vals['name'] = self.env['ir.sequence'].next_by_code('purchase.order.ept')
 		return super(PurchaseOrder, self).create(vals)
 
+
 	def action_confirm_order_button(self):
 		"""
 		To confirm purchase order.
@@ -32,37 +33,37 @@ class PurchaseOrder(models.Model):
 		Creates stock picking record and stock move records.
 		:return: None
 		"""
-		if self.purchase_order_line_ids:
-			vendor = self.env['stock.location.ept'].search([('location_type', '=', 'Vendor')], limit=1)
-			if vendor:
-				stock_moves = []
-
-				# changing purchase lines state to confirm and creating stock moves list
-				for line in self.purchase_order_line_ids:
-					# creating stock move
-					stock_moves.append(Command.create({
-						'name': f"{line.product_id.name} - {vendor.name} -> {self.warehouse_id.stock_location_id.name}",
-						'product_id': line.product_id.id,
-						'uom_id': line.uom_id.id,
-						'qty_to_deliver': line.quantity,
-						'qty_done': 0,
-						'purchase_line_id': line.purchase_order_id.id,
-						'state': 'Draft',
-						'source_location_id': vendor.id,
-						'destination_location_id': self.warehouse_id.stock_location_id.id,
-						}))
-					line.state = 'Confirm'
-
-				# generating stock picking record
-				stock_pick = self.env['stock.picking.ept'].create({
-					'partner_id': self.partner_id.id,
-					'transaction_type': 'In',
-					'move_ids': stock_moves,
-					'purchase_order_id': self.id,
-					})
-
-				self.state = 'Confirm'
-			else:
-				raise ValidationError("System couldn't find Vendor location, confirm operation cannot be completed")
-		else:
+		if not self.purchase_order_line_ids:
 			raise ValidationError('Please add some purchase lines to confirm purchase.')
+
+		vendor = self.env['stock.location.ept'].search([('location_type', '=', 'Vendor')], limit=1)
+		if not vendor:
+			raise ValidationError("System couldn't find Vendor location, confirm operation cannot be completed")
+
+		stock_moves = []
+		# changing purchase lines state to confirm and creating stock moves list
+		for line in self.purchase_order_line_ids:
+			# creating stock move
+			stock_moves.append(Command.create({
+				'name': f"{line.product_id.name} - {vendor.name} -> {self.warehouse_id.stock_location_id.name}",
+				'product_id': line.product_id.id,
+				'uom_id': line.uom_id.id,
+				'qty_to_deliver': line.quantity,
+				'qty_done': 0,
+				'purchase_line_id': line.id,
+				'state': 'Draft',
+				'source_location_id': vendor.id,
+				'destination_location_id': self.warehouse_id.stock_location_id.id,
+				}))
+			line.state = 'Confirm'
+
+		# generating stock picking record
+		if stock_moves:
+			self.env['stock.picking.ept'].create({
+				'partner_id': self.partner_id.id,
+				'transaction_type': 'In',
+				'move_ids': stock_moves,
+				'purchase_order_id': self.id,
+				})
+
+		self.state = 'Confirm'

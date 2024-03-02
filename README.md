@@ -1,2 +1,2 @@
 # odoo_practice
-Odoo Practice
+For practice of odoo modules

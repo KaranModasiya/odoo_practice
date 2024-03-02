@@ -26,6 +26,11 @@
 						<field name="name"/>
 						<field name="parent_id" options="{'no_create': True, 'no_open': True}"/>
 					</group>
+					<notebook>
+						<page string="Child products">
+							<field name="child_ids"/>
+						</page>
+					</notebook>
 				</sheet>
 			</form>
 		</field>

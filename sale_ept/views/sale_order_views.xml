@@ -10,18 +10,18 @@
 			<tree string="Product UOM">
 				<field name="name"/>
 				<field name="partner_id"/>
-				<field name="partner_invoice_id"/>
-				<field name="partner_shipping_id"/>
 				<field name="order_date"/>
 				<field name="saleperson_id"/>
-				<field name="state" widget="badge"
-				  decoration-info="state == 'Confirmed'"
-				  decoration-success="state == 'Done'"
-				  decoration-warning="state == 'Draft'"
-				  decoration-danger="state == 'Cancelled'"/>
 				<field name="total_weight"/>
 				<field name="total_volume"/>
 				<field name="order_total"/>
+				<field name="total_tax"/>
+				<field name="total_amount"/>
+				<field name="state" widget="badge"
+					   decoration-info="state == 'Confirmed'"
+					   decoration-success="state == 'Done'"
+					   decoration-warning="state == 'Draft'"
+					   decoration-danger="state == 'Cancelled'"/>
 			</tree>
 		</field>
 	</record>
@@ -38,6 +38,22 @@
 					<field name="state" widget="statusbar"/>
 				</header>
 				<sheet>
+					<div class="oe_button_box" name="button_box">
+						<button name="action_view_delivery"
+							type="object"
+							class="oe_stat_button"
+							icon="fa-truck"
+							invisible="state == 'Draft'">
+							<field name="picking_ids" widget="statinfo" string="Delivery"/>
+						</button>
+						<button name="action_view_moves"
+							type="object"
+							class="oe_stat_button"
+							icon="fa-bars"
+							invisible="state == 'Draft'">
+							<field name="order_stock_moves" widget="statinfo" string="Detailed Delivery"/>
+						</button>
+					</div>
 					<div class="oe_title">
 						<h1><field name="name" readonly="1"/></h1>
 					</div>
@@ -46,15 +62,17 @@
 							<field name="partner_id" domain="[('parent_id', '=', False)]" options="{'no_create': True, 'no_open': True}"/>
 							<field name="partner_invoice_id" domain="[('parent_id', '=', partner_id), ('address_type', '=', 'Invoice')]" options="{'no_create': True, 'no_open': True}" required="1"/>
 							<field name="partner_shipping_id" domain="[('parent_id', '=', partner_id), ('address_type', '=', 'Shipping')]" options="{'no_create': True, 'no_open': True}" required="1"/>
-							<field name="warehouse_id" options="{'no_create': True, 'no_open': True}" required="1"/>
+							<field name="saleperson_id" options="{'no_create': True, 'no_open': True}"/>
+							<field name="warehouse_id" options="{'no_create': True, 'no_open': True}" required="True"/>
 							<field name="lead_id" options="{'no_create': True, 'no_open': True}"/>
 						</group>
 						<group>
 							<field name="order_date"/>
-							<field name="saleperson_id" options="{'no_create': True, 'no_open': True}"/>
 							<field name="total_weight"/>
 							<field name="total_volume"/>
-							<field name="order_total"/>
+							<field name="order_total" force_save="True"/>
+							<field name="total_tax" force_save="True"/>
+							<field name="total_amount" force_save="True"/>
 						</group>
 					</group>
 					<notebook>
@@ -66,6 +84,8 @@
 									<field name="unit_price"/>
 									<field name="uom_id"/>
 									<field name="subtotal_without_tax"/>
+									<field name="subtotal_with_tax"/>
+									<field name="warehouse_id" options="{'no_create': True, 'no_open': True}"/>
 								</tree>
 								<form>
 									<header>
@@ -77,18 +97,22 @@
 											<field name="quantity"/>
 											<field name="delivered_qty"/>
 											<field name="cancelled_qty"/>
+											<field name="pending_qty"/>
+											<field name="warehouse_id" options="{'no_create': True, 'no_open': True}"/>
 										</group>
 										<group>
 											<field name="uom_id" options="{'no_create': True, 'no_open': True}"/>
 											<field name="unit_price" readonly="1"/>
 											<field name="subtotal_without_tax"/>
+											<field name="tax_ids" widget="many2many_tags" options="'no_create': True" readonly="True" force_save="True"/>
+											<field name="subtotal_with_tax"/>
 										</group>
 									</group>
 									<group>
 										<field name="name"/>
 									</group>
 									<notebook>
-										<page string="Stock Moves">
+										<page string="Stock Moves" invisible="not stock_move_ids">
 											<field name="stock_move_ids">
 												<tree editable="bottom">
 													<field name="source_location_id"/>

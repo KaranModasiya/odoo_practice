@@ -19,9 +19,10 @@ class PurchaseOrderLine(models.Model):
 		('Cancelled', 'Cancelled'),
 		], string="Status", help="Status of the purchase order line", default='Draft')
 	uom_id = fields.Many2one(comodel_name="product.uom.ept", string="Product UoM", help="Unit of Measure of the Product")
-	# purchase_stock_move_ids = fields.One2many(comodel_name="stock.move.ept", inverse_name="purchase_line_id", string="Stock Moves", help="Stock moves of the purchase order line", readonly=True)
-	# delivered_qty = fields.Float(compute="_compute_qty", string="Delivered Quantity", help="Delivered quantity of the product", digits=(6, 2), default=0)
-	# cancelled_qty = fields.Float(compute="_compute_qty", string="cancelled Quantity", help="Cancelled quantity tax of the product", digits=(6, 2), default=0)
+	purchase_stock_move_ids = fields.One2many(comodel_name="stock.move.ept", inverse_name="purchase_line_id", string="Stock Moves", help="Stock moves of the purchase order line")
+	received_qty = fields.Float(compute="_compute_qty", string="Received Quantity", help="Received quantity of the product", digits=(6, 2))
+	cancelled_qty = fields.Float(compute="_compute_qty", string="cancelled Quantity", help="Cancelled quantity of the product", digits=(6, 2))
+	pending_qty = fields.Float(compute="_compute_qty", string="Pending Quantity", help="Pending quantity of the product", digits=(6, 2))
 
 
 	@api.onchange('product_id')
@@ -34,9 +35,13 @@ class PurchaseOrderLine(models.Model):
 		else:
 			self.quantity = 0
 
-	# @api.depends('purchase_stock_move_ids')
-	# def _compute_qty(self):
-	# 	for purchase_line in self:
-	# 		purchase_line.delivered_qty = sum(purchase_line.purchase_stock_move_ids.search([('purchase_line_id', '=', purchase_line.id), ('state', '=', 'Done')]).mapped('qty_done'))
-	# 		purchase_line.cancelled_qty = sum(purchase_line.purchase_stock_move_ids.search([('purchase_line_id', '=', purchase_line.id), ('state', '=', 'Cancelled')]).mapped('qty_done'))
 
+	@api.depends('purchase_stock_move_ids')
+	def _compute_qty(self):
+		for purchase_line in self:
+			received = sum(purchase_line.purchase_stock_move_ids.filtered_domain([('state', '=', 'Done')]).mapped('qty_done'))
+			cancelled = sum(purchase_line.purchase_stock_move_ids.filtered_domain([('state', '=', 'Cancelled')]).mapped('qty_done'))
+
+			purchase_line.received_qty = received
+			purchase_line.cancelled_qty = cancelled
+			purchase_line.pending_qty = purchase_line.quantity - (received - cancelled)

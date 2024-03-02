@@ -20,5 +20,4 @@ class CrmLeadLine(models.Model):
 			self.expected_sell_qty = 1
 		else:
 			self.name = ''
-			self.uom_id = ''
 			self.expected_sell_qty = 0

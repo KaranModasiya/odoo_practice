@@ -11,6 +11,7 @@
 	<menuitem id="sale_ept_menu_child_sales"
 			  name="Sales"
 			  parent="sale_ept_menu_root"
+			  sequence="1"
 	/>
 
 	<menuitem id="sale_ept_menu_child_categories"
@@ -21,15 +22,29 @@
 	<menuitem id="sale_ept_menu_child_crm"
 			  name="CRM"
 			  parent="sale_ept_menu_root"
+			  sequence="0"
 	/>
 
 	<menuitem id="sale_ept_menu_child_inventory"
 			  name="Inventory"
 			  parent="sale_ept_menu_root"
+			  sequence="2"
+	/>
+
+	<menuitem id="sale_ept_menu_child_shipping"
+			  name="Shipping"
+			  parent="sale_ept_menu_root"
+			  sequence="3"
 	/>
 
 	<menuitem id="sale_ept_menu_child_purchase"
 			  name="Purchase"
+			  parent="sale_ept_menu_root"
+			  sequence="4"
+	/>
+
+	<menuitem id="sale_ept_menu_child_accounting"
+			  name="Accounting"
 			  parent="sale_ept_menu_root"
 	/>
 
@@ -55,12 +70,6 @@
 
 
 	<!--	SALES - CHILD MENUS    -->
-	<menuitem id="sale_ept_menu_sub_child_saleorder"
-			  name="Sales Order"
-			  parent="sale_ept_menu_child_sales"
-			  action="sale_order_action"
-	/>
-
 	<menuitem id="sale_ept_menu_sub_child_product"
 			  name="Products"
 			  parent="sale_ept_menu_child_sales"
@@ -71,6 +80,12 @@
 			  name="Partners"
 			  parent="sale_ept_menu_child_sales"
 			  action="res_partner_action"
+	/>
+
+	<menuitem id="sale_ept_menu_sub_child_saleorder"
+			  name="Sales Order"
+			  parent="sale_ept_menu_child_sales"
+			  action="sale_order_action"
 	/>
 
 
@@ -101,24 +116,6 @@
 			  action="stock_location_ept_action"
 	/>
 
-	<menuitem id="sale_ept_menu_sub_child_incoming_stock"
-			  name="Incoming Shipments"
-			  parent="sale_ept_menu_child_inventory"
-			  action="stock_picking_ept_incoming_action"
-	/>
-
-	<menuitem id="sale_ept_menu_sub_child_outcoming_stock"
-			  name="Delivery Orders"
-			  parent="sale_ept_menu_child_inventory"
-			  action="stock_picking_ept_outcoming_action"
-	/>
-
-	<menuitem id="sale_ept_menu_sub_child_stock_move"
-			  name="Stock Moves"
-			  parent="sale_ept_menu_child_inventory"
-			  action="stock_move_ept_action"
-	/>
-
 	<menuitem id="sale_ept_menu_sub_child_inventory_manage"
 			  name="Inventory Management"
 			  parent="sale_ept_menu_child_inventory"
@@ -126,10 +123,40 @@
 	/>
 
 
+	<!--	INVENTORY - CHILD MENUS    -->
+	<menuitem id="sale_ept_menu_sub_child_incoming_stock"
+			  name="Incoming Shipments"
+			  parent="sale_ept_menu_child_shipping"
+			  action="stock_picking_ept_incoming_action"
+	/>
+
+	<menuitem id="sale_ept_menu_sub_child_outcoming_stock"
+			  name="Delivery Orders"
+			  parent="sale_ept_menu_child_shipping"
+			  action="stock_picking_ept_outcoming_action"
+	/>
+
+	<menuitem id="sale_ept_menu_sub_child_stock_move"
+			  name="Stock Moves"
+			  parent="sale_ept_menu_child_shipping"
+			  action="stock_move_ept_action"
+	/>
+
+
+
 	<!--	PURCHASE - CHILD MENUS    -->
 	<menuitem id="sale_ept_menu_sub_child_purchase"
 			  name="Purchase Products"
 			  parent="sale_ept_menu_child_purchase"
 			  action="purchase_order_ept_action"
+	/>
+
+
+
+	<!--	ACCOUNTING - CHILD MENUS    -->
+	<menuitem id="sale_ept_menu_sub_child_tax"
+			  name="Tax"
+			  parent="sale_ept_menu_child_accounting"
+			  action="account_tax_ept_action"
 	/>
 </odoo>

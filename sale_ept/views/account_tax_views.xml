@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+<!--	ACCOUNT TAX VIEWS    -->
+
+	<!--	TREE VIEW    -->
+	<record id="view_account_tax_ept_tree" model="ir.ui.view">
+		<field name="name">account.tax.tree</field>
+		<field name="model">account.tax.ept</field>
+		<field name="arch" type="xml">
+			<tree string="Account Tax">
+				<field name="name"/>
+				<field name="tax_use"/>
+				<field name="tax_value"/>
+				<field name="tax_amount_type"/>
+			</tree>
+		</field>
+	</record>
+
+
+	<!--	FORM VIEW    -->
+	<record id="view_account_tax_ept_form" model="ir.ui.view">
+		<field name="name">account.tax.form</field>
+		<field name="model">account.tax.ept</field>
+		<field name="arch" type="xml">
+			<form string="Account Tax">
+				<sheet>
+					<group>
+						<group>
+							<field name="name"/>
+							<field name="tax_use" widget="radio" options="{'horizontal': True}"/>
+						</group>
+						<group>
+							<field name="tax_value"/>
+							<field name="tax_amount_type" widget="radio" options="{'horizontal': True}"/>
+						</group>
+					</group>
+				</sheet>
+			</form>
+		</field>
+	</record>
+
+
+	<!--	SEARCH VIEW    -->
+	<record id="view_account_tax_ept_search" model="ir.ui.view">
+		<field name="name">account.tax.serarch</field>
+		<field name="model">account.tax.ept</field>
+		<field name="arch" type="xml">
+			<search string="Account Tax">
+				<field name="name"/>
+				<group>
+					<filter name="group_tax_use" string="Tax Use" context="{'group_by': 'tax_use'}"/>
+					<filter name="group_tax_amount_type" string="Amount Type" context="{'group_by': 'tax_amount_type'}"/>
+				</group>
+			</search>
+		</field>
+	</record>
+
+
+	<!--	ACCOUNT TAX ACTIONS    -->
+	<record id="account_tax_ept_action" model="ir.actions.act_window">
+		<field name="name">Account Tax</field>
+		<field name="type">ir.actions.act_window</field>
+		<field name="res_model">account.tax.ept</field>
+		<field name="view_mode">tree,form</field>
+		<field name="search_view_id" ref="view_account_tax_ept_search"/>
+		<field name="help" type="html">
+			<p class="o_view_nocontent_smiling_face">
+				No records are available to show.
+			</p>
+		</field>
+	</record>
+</odoo>

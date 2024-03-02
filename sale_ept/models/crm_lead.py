@@ -65,6 +65,7 @@ class CrmLead(models.Model):
 					'quantity': line.expected_sell_qty,
 					'unit_price': line.product_id.sale_price,
 					'uom_id': line.uom_id.id,
+					'tax_ids': line.product_id.tax_ids.ids,
 					}))
 
 			saleorder = self.env['sale.order.ept'].new({'partner_id': self.partner_id.id})

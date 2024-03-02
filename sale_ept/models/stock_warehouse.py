@@ -2,6 +2,7 @@ from odoo import fields, models, api
 from odoo.exceptions import ValidationError
 from odoo.fields import Command
 
+
 class StockWarehouse(models.Model):
 
 	_name = 'stock.warehouse.ept'
@@ -12,6 +13,7 @@ class StockWarehouse(models.Model):
 	address_id = fields.Many2one(comodel_name="res.partner.ept", string="Warehouse Manager", help="Manager of the warehouse")
 	stock_location_id = fields.Many2one(comodel_name="stock.location.ept", string="Stock Location", help="Stock location of the warehouse")
 	view_location_id = fields.Many2one(comodel_name="stock.location.ept", string="View Location", help="View location of the warehouse")
+
 
 	@api.model
 	def create(self, vals):
@@ -28,5 +30,3 @@ class StockWarehouse(models.Model):
 			'parent_id': vals['view_location_id'],
 			}).id
 		return super(StockWarehouse, self).create(vals)
-
-

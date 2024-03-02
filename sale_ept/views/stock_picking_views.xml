@@ -10,6 +10,7 @@
 			<tree string="Stock Picking">
 				<field name="name"/>
 				<field name="partner_id"/>
+				<field name="back_order_id"/>
 				<field name="sale_order_id"/>
 				<field name="purchase_order_id"/>
 				<field name="transaction_date"/>
@@ -91,6 +92,21 @@
 								</form>
 							</field>
 						</page>
+						<page string="Child Backorder">
+							<field name="child_backorder_ids" readonly="True"/>
+						</page>
+						<page string="Saleorder lines" invisible="transaction_type == 'In'">
+							<field name="saleorder_lines_ids">
+								<tree no_open="True">
+									<field name="product_id"/>
+									<field name="quantity"/>
+									<field name="unit_price"/>
+									<field name="uom_id"/>
+									<field name="subtotal_without_tax"/>
+									<field name="subtotal_with_tax"/>
+								</tree>
+							</field>
+						</page>
 					</notebook>
 				</sheet>
 			</form>
@@ -106,6 +122,8 @@
 			<search string="Stock Picking">
 				<field name="name"/>
 				<field name="partner_id"/>
+				<field name="sale_order_id"/>
+				<field name="purchase_order_id"/>
 			</search>
 		</field>
 	</record>

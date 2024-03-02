@@ -2,6 +2,7 @@ from odoo import fields, models, api
 from odoo.exceptions import ValidationError
 from odoo.fields import Command
 
+
 class StockInventory(models.Model):
 
 	_name = 'stock.inventory.ept'
@@ -19,6 +20,7 @@ class StockInventory(models.Model):
 	inventory_line_ids = fields.One2many(comodel_name="stock.inventory.line.ept", inverse_name="inventory_id", string="Inventory Lines", help="Inventory lines of the stock inventory", required=True)
 	stock_move_ids = fields.One2many(comodel_name="stock.move.ept", inverse_name="stock_inventory_id", string="Stock Moves", help="Stock moves of the stock inventory", required=True)
 
+
 	def action_start_inventory_button(self):
 		"""
 		To change state in-progress.
@@ -32,6 +34,7 @@ class StockInventory(models.Model):
 
 		self.state = 'In-Progress'
 
+
 	def action_validate_inventory_button(self):
 		"""
 		To validate the inventory and generate stock moves.
@@ -39,35 +42,25 @@ class StockInventory(models.Model):
 		"""
 
 		inventory_loss_location = self.env['stock.location.ept'].search([('location_type', '=', 'Inventory Loss')], limit=1)
-		if inventory_loss_location:
-			for product in self.inventory_line_ids:
-				# if difference is not 0 then create a stock move with basic product details
-				if product.difference != 0:
-					stock_move = self.env['stock.move.ept'].create(
-						{'product_id': product.product_id.id,
-						 'uom_id': product.product_id.uom_id.id,
-						 'qty_to_deliver': abs(product.difference),
-						 'qty_done': abs(product.difference),
-						 'state': 'Done',
-						 'stock_inventory_id': self.id,
-						 })
-
-					# if counted product is more than sysytem products
-					if product.difference > 0:
-						stock_move.write(
-							{'source_location_id': inventory_loss_location.id,
-							 'destination_location_id': self.location_id.id,
-							 'name': f"{product.product_id.name} - {inventory_loss_location.name} -> {self.location_id.name}",
-							 })
-					else:
-						stock_move.write(
-							{'source_location_id': self.location_id.id,
-							 'destination_location_id': inventory_loss_location.id,
-							 'name': f"{product.product_id.name} - {self.location_id.name} -> {inventory_loss_location.name}",
-							 })
-		else:
+		if not inventory_loss_location:
 			raise ValidationError("System couldn't find Inventory loss location, validation operation cannot be completed")
 
+		for product in self.inventory_line_ids:
+			# if difference is not 0 then create a stock move with basic product details
+			if product.difference != 0:
+				source = inventory_loss_location if product.difference > 0 else self.location_id
+				destination = self.location_id if product.difference > 0 else inventory_loss_location
+				self.env['stock.move.ept'].create({
+					'name': f"{product.product_id.name} - {source.name} -> {destination.name}",
+					'product_id': product.product_id.id,
+					'uom_id': product.product_id.uom_id.id,
+					'qty_to_deliver': abs(product.difference),
+					'qty_done': abs(product.difference),
+					'state': 'Done',
+					'stock_inventory_id': self.id,
+					'source_location_id': source.id,
+					'destination_location_id': destination.id,
+					})
 		self.state = 'Done'
 
 

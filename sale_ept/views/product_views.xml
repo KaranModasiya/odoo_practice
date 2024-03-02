@@ -26,37 +26,47 @@
 		<field name="model">product.ept</field>
 		<field name="arch" type="xml">
 			<form string="Product">
+				<header>
+<!--					<button name="action_update_stock_button" type="object" string="Update Stock" class="btn-primary"/>-->
+					<button name="%(sale_ept.product_stock_update_wizard_action)d" type="action" string="Update Stock" class="btn-primary"/>
+				</header>
 				<sheet>
 					<group>
 						<group>
 							<field name="name"/>
 							<field name="sku"/>
 							<field name="barcode"/>
+							<field name="category_id" options="{'no_create': True, 'no_open': True}"/>
+							<field name="product_type" widget="radio" options="{'horizontal': True}"/>
 						</group>
 						<group>
-							<field name="product_type"/>
+							<field name="uom_id" options="{'no_create': True, 'no_open': True}"/>
 							<field name="sale_price"/>
 							<field name="cost_price"/>
+							<field name="product_stock"/>
+						</group>
+					</group>
+					<group>
+						<group>
+							<field name="length"/>
+							<field name="width"/>
+						</group>
+						<group>
+							<field name="weight"/>
+							<field name="volume"/>
 						</group>
 					</group>
 					<notebook>
-						<page string="Properties">
-							<group>
-								<group>
-									<field name="category_id" options="{'no_create': True, 'no_open': True}"/>
-									<field name="uom_id" options="{'no_create': True, 'no_open': True}"/>
-									<field name="product_stock"/>
-								</group>
-								<group>
-									<field name="weight"/>
-									<field name="length"/>
-									<field name="width"/>
-									<field name="volume"/>
-								</group>
-							</group>
-						</page>
 						<page string="Description">
 							<field name="description"/>
+						</page>
+						<page string="Child Categories">
+							<field name="parent_ids"/>
+						</page>
+						<page string="Accounting">
+							<group>
+								<field name="tax_ids" domain="[('tax_use', '=', 'Sale')]" widget="many2many_tags" options="{'no_create': True}"/>
+							</group>
 						</page>
 					</notebook>
 				</sheet>

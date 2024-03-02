@@ -17,6 +17,9 @@ access_stock_picking_user,Sale Person,model_stock_picking_ept,group_saleperson,1
 access_stock_warehouse_user,Sale Person,model_stock_warehouse_ept,group_saleperson,1,1,1,0
 access_purchase_order_user,Sale Person,model_purchase_order_ept,group_saleperson,1,1,1,0
 access_purchase_order_line_user,Sale Person,model_purchase_order_line_ept,group_saleperson,1,1,1,0
+access_product_stock_update_user,Sale Person,model_product_stock_update_ept,group_saleperson,1,1,1,0
+access_account_tax_user,Sale Person,model_account_tax_ept,group_saleperson,1,1,1,0
+access_multi_product_stock_update_user,Sale Person,model_multi_product_stock_update_ept,group_saleperson,1,1,1,0
 ,,,,,,,
 access_sale_product_category_manager,Sale Manager,model_product_category_ept,group_salemanager,1,1,1,1
 access_sale_product_uom_category_manager,Sale Manager,model_product_uom_category_ept,group_salemanager,1,1,1,1
@@ -35,4 +38,7 @@ access_stock_move_manager,Sale Manager,model_stock_move_ept,group_salemanager,1,
 access_stock_picking_manager,Sale Manager,model_stock_picking_ept,group_salemanager,1,1,1,1
 access_stock_warehouse_manager,Sale Manager,model_stock_warehouse_ept,group_salemanager,1,1,1,1
 access_purchase_order_manager,Sale Manager,model_purchase_order_ept,group_salemanager,1,1,1,1
-access_purchase_order_line_manager,Sale Manager,model_purchase_order_line_ept,,,,,
+access_purchase_order_line_manager,Sale Manager,model_purchase_order_line_ept,group_salemanager,1,1,1,1
+access_product_stock_update_manager,Sale Manager,model_product_stock_update_ept,group_salemanager,1,1,1,1
+access_account_tax_manage,Sale Manager,model_account_tax_ept,group_salemanager,1,1,1,1
+access_multi_product_stock_update_manager,Sale Manager,model_multi_product_stock_update_ept,group_salemanager,1,1,1,1
