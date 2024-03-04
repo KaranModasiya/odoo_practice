@@ -188,7 +188,7 @@
 		<field name="description">AMD 7000 Series Ryzen 9 7950X Desktop Processor 16 cores 32 Threads 80 MB Cache 4.5 GHz Up to 5.7 GHz Socket AM5, 600 Series Chipset (100-100000514WOF)</field>
 		<field name="category_id" ref="sale_ept.product_category_cpu"/>
 		<field name="uom_id" ref="sale_ept.product_uom_units"/>
-		<field name="tax_ids" eval="[(5, 0, [ref('sale_ept.account_tax_10_percent_sale')])]"/>
+		<field name="tax_ids" eval="[(4, ref('sale_ept.account_tax_10_percent_sale'))]"/>
 	</record>
 
 	<!--	Product - ram    -->
@@ -206,7 +206,7 @@
 		<field name="description">G.Skill Trident Z5 NEO RGB Series (AMD Expo) 32GB 288-Pin SDRAM DDR5 6000 CL30-40-40-96 1.40V Dual Channel Desktop Memory F5-6000J3040G32GX2-TZ5NR (Matte Black)</field>
 		<field name="category_id" ref="sale_ept.product_category_ram"/>
 		<field name="uom_id" ref="sale_ept.product_uom_units"/>
-		<field name="tax_ids" eval="[(5, 0, [ref('sale_ept.account_tax_10_percent_sale')])]"/>
+		<field name="tax_ids" eval="[(4, ref('sale_ept.account_tax_10_percent_sale'))]"/>
 	</record>
 
 	<!--	Product - ssd    -->
@@ -224,7 +224,7 @@
 		<field name="description">Samsung 990 PRO SSD 4TB PCIe 4.0 M.2 2280 Internal Solid State Hard Drive, Seq. Read Speeds Up to 7,450 MB/s for High End Computing, Gaming, and Heavy Duty Workstations, MZ-V9P4T0B, Black</field>
 		<field name="category_id" ref="sale_ept.product_category_ssd"/>
 		<field name="uom_id" ref="sale_ept.product_uom_units"/>
-		<field name="tax_ids" eval="[(5, 0, [ref('sale_ept.account_tax_10_percent_sale')])]"/>
+		<field name="tax_ids" eval="[(4, ref('sale_ept.account_tax_10_percent_sale'))]"/>
 	</record>
 
 	<!--	Product - hdd    -->
@@ -242,7 +242,7 @@
 		<field name="description">Seagate BarraCuda 8TB Internal Hard Drive HDD – 3.5 Inch Sata 6 Gb/s 5400 RPM 256MB Cache for Computer Desktop PC (ST8000DMZ04/004)</field>
 		<field name="category_id" ref="sale_ept.product_category_hdd"/>
 		<field name="uom_id" ref="sale_ept.product_uom_units"/>
-		<field name="tax_ids" eval="[(5, 0, [ref('sale_ept.account_tax_10_percent_sale')])]"/>
+		<field name="tax_ids" eval="[(4, ref('sale_ept.account_tax_10_percent_sale'))]"/>
 	</record>
 
 	<!--	Product - gpu    -->
@@ -260,6 +260,6 @@
 		<field name="description">ASUS ROG Strix GeForce RTX® 4090 OC Edition Gaming Graphics Card (PCIe 4.0, 24GB GDDR6X, HDMI 2.1a, DisplayPort 1.4a)</field>
 		<field name="category_id" ref="sale_ept.product_category_gpu"/>
 		<field name="uom_id" ref="sale_ept.product_uom_units"/>
-		<field name="tax_ids" eval="[(5, 0, [ref('sale_ept.account_tax_10_percent_sale')])]"/>
+		<field name="tax_ids" eval="[(4, ref('sale_ept.account_tax_10_percent_sale'))]"/>
 	</record>
 </odoo>
