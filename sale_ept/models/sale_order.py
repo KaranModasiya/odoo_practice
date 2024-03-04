@@ -17,7 +17,6 @@ class SaleOrder(models.Model):
 	state = fields.Selection(selection=[
 		('Draft', 'Draft'),
 		('Confirmed', 'Confirmed'),
-		('Done', 'Done'),
 		('Cancelled', 'Cancelled')
 		], string="Status", help="Status of the order", default="Draft")
 	total_weight = fields.Float(compute="_compute_total", string="Total Weight", help="Total weight of the order", digits=(6, 2))
@@ -109,14 +108,7 @@ class SaleOrder(models.Model):
 		if not customer_location:
 			raise ValidationError("System couldn't find Customer location, confirm operation cannot be completed")
 
-		# if warehouse_id is empty in orderline it will assign from sale order warehouse_id
-		# self.order_line_ids.filtered_domain([('warehouse_id', '=', False)]).warehouse_id = self.warehouse_id
-
-		# warehouse_list = [line.warehouse_id.id for line in self.order_line_ids]
-		# warehouse_list.append(self.warehouse_id.id) if False in warehouse_list and self.warehouse_id.id not in warehouse_list else None
-
 		warehouse_list = self.order_line_ids.warehouse_id.ids
-		# warehouse_list.append(self.warehouse_id.id) if self.warehouse_id.id not in warehouse_list else None
 		self.warehouse_id.id not in warehouse_list and warehouse_list.append(self.warehouse_id.id)
 
 		# generating delivery order for each warehouse in saleorder_line
@@ -154,6 +146,10 @@ class SaleOrder(models.Model):
 
 		# changing sale order state to confirm
 		self.state = 'Confirmed'
+
+
+	def action_cancel_order_button(self):
+		self.state = 'Cancelled'
 
 
 	def action_view_delivery(self):

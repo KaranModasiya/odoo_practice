@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo noupdate="1">
+
+	<!--	Country Demo    -->
+
+	<!--	India    -->
+	<record id="localization_country_india" model="res.country.ept">
+		<field name="name">India</field>
+		<field name="code">IN</field>
+	</record>
+
+	<!--	Canada    -->
+	<record id="localization_country_canada" model="res.country.ept">
+		<field name="name">Canada</field>
+		<field name="code">CA</field>
+	</record>
+
+
+	<!--	State Demo    -->
+
+	<!--	India - Gujarat    -->
+	<record id="localization_state_gujarat" model="res.state.ept">
+		<field name="name">Gujarat</field>
+		<field name="code">GJ</field>
+		<field name="country_id" ref="res_localization_ept.localization_country_india"/>
+	</record>
+
+	<!--	India - Maharashtra    -->
+	<record id="localization_state_maharashtra" model="res.state.ept">
+		<field name="name">Maharashtra</field>
+		<field name="code">MH</field>
+		<field name="country_id" ref="res_localization_ept.localization_country_india"/>
+	</record>
+
+	<!--	India - Rajasthan    -->
+	<record id="localization_state_rajasthan" model="res.state.ept">
+		<field name="name">Rajasthan</field>
+		<field name="code">RJ</field>
+		<field name="country_id" ref="res_localization_ept.localization_country_india"/>
+	</record>
+
+	<!--	Canada - Ontario    -->
+	<record id="localization_state_ontario" model="res.state.ept">
+		<field name="name">Ontario</field>
+		<field name="code">ON</field>
+		<field name="country_id" ref="res_localization_ept.localization_country_canada"/>
+	</record>
+
+	<!--	Canada - Manitoba    -->
+	<record id="localization_state_manitoba" model="res.state.ept">
+		<field name="name">Manitoba</field>
+		<field name="code">MB</field>
+		<field name="country_id" ref="res_localization_ept.localization_country_canada"/>
+	</record>
+
+	<!--	Canada - Alberta    -->
+	<record id="localization_state_alberta" model="res.state.ept">
+		<field name="name">Alberta</field>
+		<field name="code">AB</field>
+		<field name="country_id" ref="res_localization_ept.localization_country_canada"/>
+	</record>
+
+
+	<!--	City Demo    -->
+
+	<!--	Gujarat - Surat    -->
+	<record id="localization_city_surat" model="res.city.ept">
+		<field name="name">Surat</field>
+		<field name="state_id" ref="res_localization_ept.localization_state_gujarat"/>
+	</record>
+
+	<!--	Gujarat - Ahmedabad    -->
+	<record id="localization_city_ahmedabad" model="res.city.ept">
+		<field name="name">Ahmedabad</field>
+		<field name="state_id" ref="res_localization_ept.localization_state_gujarat"/>
+	</record>
+
+	<!--	Gujarat - Rajkot    -->
+	<record id="localization_city_rajkot" model="res.city.ept">
+		<field name="name">Rajkot</field>
+		<field name="state_id" ref="res_localization_ept.localization_state_gujarat"/>
+	</record>
+
+	<!--	Maharashtra - Mumbai    -->
+	<record id="localization_city_mumbai" model="res.city.ept">
+		<field name="name">Mumbai</field>
+		<field name="state_id" ref="res_localization_ept.localization_state_maharashtra"/>
+	</record>
+
+	<!--	Maharashtra - Pune    -->
+	<record id="localization_city_pune" model="res.city.ept">
+		<field name="name">Pune</field>
+		<field name="state_id" ref="res_localization_ept.localization_state_maharashtra"/>
+	</record>
+
+	<!--	Maharashtra - Nashik    -->
+	<record id="localization_city_nashik" model="res.city.ept">
+		<field name="name">Nashik</field>
+		<field name="state_id" ref="res_localization_ept.localization_state_maharashtra"/>
+	</record>
+
+	<!--	Rajasthan - Jaipur    -->
+	<record id="localization_city_jaipur" model="res.city.ept">
+		<field name="name">Jaipur</field>
+		<field name="state_id" ref="res_localization_ept.localization_state_rajasthan"/>
+	</record>
+
+	<!--	Rajasthan - Kota    -->
+	<record id="localization_city_kota" model="res.city.ept">
+		<field name="name">Kota</field>
+		<field name="state_id" ref="res_localization_ept.localization_state_rajasthan"/>
+	</record>
+
+	<!--	Rajasthan - Jodhpur    -->
+	<record id="localization_city_jodhpur" model="res.city.ept">
+		<field name="name">Jodhpur</field>
+		<field name="state_id" ref="res_localization_ept.localization_state_rajasthan"/>
+	</record>
+
+	<!--	Ontario - Toronto    -->
+	<record id="localization_city_toronto" model="res.city.ept">
+		<field name="name">Toronto</field>
+		<field name="state_id" ref="res_localization_ept.localization_state_ontario"/>
+	</record>
+
+	<!--	Ontario - Kingston    -->
+	<record id="localization_city_kingston" model="res.city.ept">
+		<field name="name">Kingston</field>
+		<field name="state_id" ref="res_localization_ept.localization_state_ontario"/>
+	</record>
+
+	<!--	Ontario - Ottawa    -->
+	<record id="localization_city_ottawa" model="res.city.ept">
+		<field name="name">Ottawa</field>
+		<field name="state_id" ref="res_localization_ept.localization_state_ontario"/>
+	</record>
+
+	<!--	Manitoba - Winnipeg    -->
+	<record id="localization_city_winnipeg" model="res.city.ept">
+		<field name="name">Winnipeg</field>
+		<field name="state_id" ref="res_localization_ept.localization_state_manitoba"/>
+	</record>
+
+	<!--	Manitoba - Selkirk    -->
+	<record id="localization_city_selkirk" model="res.city.ept">
+		<field name="name">Selkirk</field>
+		<field name="state_id" ref="res_localization_ept.localization_state_manitoba"/>
+	</record>
+
+	<!--	Manitoba - Flin Flon    -->
+	<record id="localization_city_flin_flon" model="res.city.ept">
+		<field name="name">Flin Flon</field>
+		<field name="state_id" ref="res_localization_ept.localization_state_manitoba"/>
+	</record>
+
+	<!--	Alberta - Calgary    -->
+	<record id="localization_city_calgary" model="res.city.ept">
+		<field name="name">Calgary</field>
+		<field name="state_id" ref="res_localization_ept.localization_state_alberta"/>
+	</record>
+
+	<!--	Alberta - St. Albert    -->
+	<record id="localization_city_st_albert" model="res.city.ept">
+		<field name="name">St. Albert</field>
+		<field name="state_id" ref="res_localization_ept.localization_state_alberta"/>
+	</record>
+
+	<!--	Alberta - Hinton    -->
+	<record id="localization_city_hinton" model="res.city.ept">
+		<field name="name">Hinton</field>
+		<field name="state_id" ref="res_localization_ept.localization_state_alberta"/>
+	</record>
+</odoo>

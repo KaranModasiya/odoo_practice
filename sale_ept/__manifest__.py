@@ -14,6 +14,7 @@
 		'views/product_category_views.xml',
 		'views/product_uom_category_views.xml',
 		'views/product_uom_views.xml',
+		'wizard/product_stock_update_wizard_views.xml',
 		'views/product_views.xml',
 		'views/res_partner_views.xml',
 		'views/sale_order_views.xml',
@@ -26,7 +27,7 @@
 		'views/purchase_order_views.xml',
 		'views/stock_inventory_views.xml',
 		'views/account_tax_views.xml',
-		'wizard/product_stock_update_wizard_views.xml',
 		'views/sale_ept_menus.xml',
+		'data/sale_demo.xml',
 	],
 }

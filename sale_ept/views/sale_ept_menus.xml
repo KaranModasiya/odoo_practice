@@ -4,6 +4,7 @@
 	<menuitem id="sale_ept_menu_root"
 			  name="My Sales"
 			  web_icon="sale_ept,static/description/icon.png"
+			  sequence="0"
 	/>
 
 

@@ -47,9 +47,9 @@
 							<field name="zipcode"/>
 						</group>
 						<group>
-							<field name="city" options="{'no_create': True, 'no_open': True}"/>
-							<field name="state" options="{'no_create': True, 'no_open': True}"/>
 							<field name="country" options="{'no_create': True, 'no_open': True}"/>
+							<field name="state" options="{'no_create': True, 'no_open': True}" domain="[('country_id', '=', country)]"/>
+							<field name="city" options="{'no_create': True, 'no_open': True}" domain="[('state_id', '=', state)]"/>
 						</group>
 					</group>
 					<notebook>
@@ -100,9 +100,9 @@
 											<field name="zipcode"/>
 										</group>
 										<group>
-											<field name="city" options="{'no_create': True, 'no_open': True}"/>
-											<field name="state" options="{'no_create': True, 'no_open': True}"/>
 											<field name="country" options="{'no_create': True, 'no_open': True}"/>
+											<field name="state" options="{'no_create': True, 'no_open': True}" domain="[('country_id', '=', country)]"/>
+											<field name="city" options="{'no_create': True, 'no_open': True}" domain="[('state_id', '=', state)]"/>
 										</group>
 									</group>
 								</form>

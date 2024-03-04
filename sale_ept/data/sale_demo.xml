@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo noupdate="1">
+
+	<!--	CRM Lead Team - Sales    -->
+	<record id="sale_crm_lead_team_sales" model="crm.team.ept">
+		<field name="name">Sales</field>
+		<field name="team_leader" ref="base.user_admin"/>
+	</record>
+
+
+
+	<!--	Product Category - All    -->
+	<record id="product_category_all" model="product.category.ept">
+		<field name="name">All</field>
+	</record>
+
+	<!--	Product Category - CPU    -->
+	<record id="product_category_cpu" model="product.category.ept">
+		<field name="name">CPU</field>
+		<field name="parent_id" ref="sale_ept.product_category_all"/>
+	</record>
+
+	<!--	Product Category - RAM    -->
+	<record id="product_category_ram" model="product.category.ept">
+		<field name="name">RAM</field>
+		<field name="parent_id" ref="sale_ept.product_category_all"/>
+	</record>
+
+	<!--	Product Category - ROM    -->
+	<record id="product_category_rom" model="product.category.ept">
+		<field name="name">ROM</field>
+		<field name="parent_id" ref="sale_ept.product_category_all"/>
+	</record>
+
+	<!--	Product Category - Graphics Card    -->
+	<record id="product_category_gpu" model="product.category.ept">
+		<field name="name">Graphics Card</field>
+		<field name="parent_id" ref="sale_ept.product_category_all"/>
+	</record>
+
+	<!--	Product Category - Hard Disk    -->
+	<record id="product_category_hdd" model="product.category.ept">
+		<field name="name">Hard Disk</field>
+		<field name="parent_id" ref="sale_ept.product_category_rom"/>
+	</record>
+
+	<!--	Product Category - SSD    -->
+	<record id="product_category_ssd" model="product.category.ept">
+		<field name="name">SSD</field>
+		<field name="parent_id" ref="sale_ept.product_category_rom"/>
+	</record>
+
+
+
+	<!--	Product UOM Category - Unit    -->
+	<record id="product_uom_category_unit" model="product.uom.category.ept">
+		<field name="name">Unit</field>
+	</record>
+
+	<!--	Product UOM - Units    -->
+	<record id="product_uom_units" model="product.uom.ept">
+		<field name="name">Units</field>
+		<field name="uom_category_id" ref="sale_ept.product_uom_category_unit"/>
+	</record>
+
+
+
+	<!--	Partner - Warehouse Manager    -->
+	<record id="partner_warehouse_manager" model="res.partner.ept">
+		<field name="name">Warehouse Manager</field>
+		<field name="email">dummy@dummy.com</field>
+		<field name="mobile">8794564958</field>
+		<field name="street1">Jay Residency</field>
+		<field name="street2">KKV Chowk</field>
+		<field name="zipcode">340001</field>
+		<field name="city" ref="res_localization_ept.localization_city_rajkot"/>
+		<field name="state" ref="res_localization_ept.localization_state_gujarat"/>
+		<field name="country" ref="res_localization_ept.localization_country_india"/>
+	</record>
+
+	<!--	Partner - John    -->
+	<record id="partner_john" model="res.partner.ept">
+		<field name="name">John</field>
+		<field name="email">john@dummy.com</field>
+		<field name="mobile">9694744573</field>
+		<field name="street1">945 Gardiners Rd</field>
+		<field name="street2">#L-13</field>
+		<field name="zipcode">K7M 7H4</field>
+		<field name="city" ref="res_localization_ept.localization_city_kingston"/>
+		<field name="state" ref="res_localization_ept.localization_state_ontario"/>
+		<field name="country" ref="res_localization_ept.localization_country_canada"/>
+	</record>
+
+
+
+	<!--	Stock Warehouse - WH1    -->
+	<record id="stock_warehouse1" model="stock.warehouse.ept">
+		<field name="name">Warehouse1</field>
+		<field name="short_code">WH1</field>
+		<field name="address_id" ref="sale_ept.partner_warehouse_manager"/>
+	</record>
+
+	<!--	Stock Warehouse - WH2    -->
+	<record id="stock_warehouse2" model="stock.warehouse.ept">
+		<field name="name">Warehouse2</field>
+		<field name="short_code">WH2</field>
+		<field name="address_id" ref="sale_ept.partner_warehouse_manager"/>
+	</record>
+
+
+
+	<!--	Stock Location - Vendor    -->
+	<record id="stock_location_vendor" model="stock.location.ept">
+		<field name="name">Vendor Location</field>
+		<field name="location_type">Vendor</field>
+	</record>
+
+	<!--	Stock Location - Customer    -->
+	<record id="stock_location_customer" model="stock.location.ept">
+		<field name="name">Customer Location</field>
+		<field name="location_type">Customer</field>
+	</record>
+
+	<!--	Stock Location - Inventory Loss    -->
+	<record id="stock_location_inventory_loss" model="stock.location.ept">
+		<field name="name">Inventory Loss</field>
+		<field name="location_type">Inventory Loss</field>
+	</record>
+
+	<!--	Stock Location - Transit    -->
+	<record id="stock_location_transit" model="stock.location.ept">
+		<field name="name">Transit Location</field>
+		<field name="location_type">Transit</field>
+	</record>
+
+	<!--	Stock Location - Production    -->
+	<record id="stock_location_production" model="stock.location.ept">
+		<field name="name">Transit Location</field>
+		<field name="location_type">Transit</field>
+	</record>
+
+	<!--	Stock Location - Scrap Location    -->
+	<record id="stock_location_scrap" model="stock.location.ept">
+		<field name="name">Scrap Location</field>
+			<field name="is_scrap_location">True</field>
+	</record>
+
+
+
+	<!--	Account Tax - 10% sale    -->
+	<record id="account_tax_10_percent_sale" model="account.tax.ept">
+		<field name="name">10% Tax</field>
+		<field name="tax_use">Sale</field>
+		<field name="tax_value">10</field>
+		<field name="tax_amount_type">Percentage</field>
+	</record>
+
+	<!--	Account Tax - 15% sale    -->
+	<record id="account_tax_15_percent_sale" model="account.tax.ept">
+		<field name="name">15% Tax</field>
+		<field name="tax_use">Sale</field>
+		<field name="tax_value">15</field>
+		<field name="tax_amount_type">Percentage</field>
+	</record>
+
+	<!--	Account Tax - $5 sale    -->
+	<record id="account_tax_5_fixed_sale" model="account.tax.ept">
+		<field name="name">$5 Fixed</field>
+		<field name="tax_use">Sale</field>
+		<field name="tax_value">5</field>
+		<field name="tax_amount_type">Fixed</field>
+	</record>
+
+
+
+	<!--	Product - cpu    -->
+	<record id="product_cpu" model="product.ept">
+		<field name="name">AMD RYZEN 9 7950X</field>
+		<field name="sku">PRD1</field>
+		<field name="weight">0.33</field>
+		<field name="length">12.90</field>
+		<field name="width">9.09</field>
+		<field name="volume">1</field>
+		<field name="barcode">111</field>
+		<field name="product_type">Storable</field>
+		<field name="sale_price">1338.90</field>
+		<field name="cost_price">999.90</field>
+		<field name="description">AMD 7000 Series Ryzen 9 7950X Desktop Processor 16 cores 32 Threads 80 MB Cache 4.5 GHz Up to 5.7 GHz Socket AM5, 600 Series Chipset (100-100000514WOF)</field>
+		<field name="category_id" ref="sale_ept.product_category_cpu"/>
+		<field name="uom_id" ref="sale_ept.product_uom_units"/>
+		<field name="tax_ids" eval="[(5, 0, [ref('sale_ept.account_tax_10_percent_sale')])]"/>
+	</record>
+
+	<!--	Product - ram    -->
+	<record id="product_ram" model="product.ept">
+		<field name="name">G.Skill Trident Z5 NEO RGB</field>
+		<field name="sku">PRD2</field>
+		<field name="weight">0.17</field>
+		<field name="length">16.51</field>
+		<field name="width">24.64</field>
+		<field name="volume">1.2</field>
+		<field name="barcode">222</field>
+		<field name="product_type">Storable</field>
+		<field name="sale_price">149.99</field>
+		<field name="cost_price">99.90</field>
+		<field name="description">G.Skill Trident Z5 NEO RGB Series (AMD Expo) 32GB 288-Pin SDRAM DDR5 6000 CL30-40-40-96 1.40V Dual Channel Desktop Memory F5-6000J3040G32GX2-TZ5NR (Matte Black)</field>
+		<field name="category_id" ref="sale_ept.product_category_ram"/>
+		<field name="uom_id" ref="sale_ept.product_uom_units"/>
+		<field name="tax_ids" eval="[(5, 0, [ref('sale_ept.account_tax_10_percent_sale')])]"/>
+	</record>
+
+	<!--	Product - ssd    -->
+	<record id="product_ssd" model="product.ept">
+		<field name="name">Samsung 990 PRO SSD 4TB</field>
+		<field name="sku">PRD3</field>
+		<field name="weight">0.009</field>
+		<field name="length">8.0</field>
+		<field name="width">2.2</field>
+		<field name="volume">0.2</field>
+		<field name="barcode">333</field>
+		<field name="product_type">Storable</field>
+		<field name="sale_price">575.99</field>
+		<field name="cost_price">490.90</field>
+		<field name="description">Samsung 990 PRO SSD 4TB PCIe 4.0 M.2 2280 Internal Solid State Hard Drive, Seq. Read Speeds Up to 7,450 MB/s for High End Computing, Gaming, and Heavy Duty Workstations, MZ-V9P4T0B, Black</field>
+		<field name="category_id" ref="sale_ept.product_category_ssd"/>
+		<field name="uom_id" ref="sale_ept.product_uom_units"/>
+		<field name="tax_ids" eval="[(5, 0, [ref('sale_ept.account_tax_10_percent_sale')])]"/>
+	</record>
+
+	<!--	Product - hdd    -->
+	<record id="product_hdd" model="product.ept">
+		<field name="name">Seagate BarraCuda 8TB HDD</field>
+		<field name="sku">PRD4</field>
+		<field name="weight">0.66</field>
+		<field name="length">14.71</field>
+		<field name="width">10.16</field>
+		<field name="volume">2.3</field>
+		<field name="barcode">444</field>
+		<field name="product_type">Storable</field>
+		<field name="sale_price">135.99</field>
+		<field name="cost_price">90.90</field>
+		<field name="description">Seagate BarraCuda 8TB Internal Hard Drive HDD – 3.5 Inch Sata 6 Gb/s 5400 RPM 256MB Cache for Computer Desktop PC (ST8000DMZ04/004)</field>
+		<field name="category_id" ref="sale_ept.product_category_hdd"/>
+		<field name="uom_id" ref="sale_ept.product_uom_units"/>
+		<field name="tax_ids" eval="[(5, 0, [ref('sale_ept.account_tax_10_percent_sale')])]"/>
+	</record>
+
+	<!--	Product - gpu    -->
+	<record id="product_gpu" model="product.ept">
+		<field name="name">ASUS ROG RTX 4090 24TB Graphics Card</field>
+		<field name="sku">PRD5</field>
+		<field name="weight">3.65</field>
+		<field name="length">22.61</field>
+		<field name="width">42.01</field>
+		<field name="volume">3.5</field>
+		<field name="barcode">555</field>
+		<field name="product_type">Storable</field>
+		<field name="sale_price">2349.99</field>
+		<field name="cost_price">1990.90</field>
+		<field name="description">ASUS ROG Strix GeForce RTX® 4090 OC Edition Gaming Graphics Card (PCIe 4.0, 24GB GDDR6X, HDMI 2.1a, DisplayPort 1.4a)</field>
+		<field name="category_id" ref="sale_ept.product_category_gpu"/>
+		<field name="uom_id" ref="sale_ept.product_uom_units"/>
+		<field name="tax_ids" eval="[(5, 0, [ref('sale_ept.account_tax_10_percent_sale')])]"/>
+	</record>
+</odoo>

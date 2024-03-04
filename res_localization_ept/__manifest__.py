@@ -2,7 +2,7 @@
 	'name': 'Localization',
 	'version': '1.0',
 	'author': 'Emipro Technologies',
-	'website': 'http://emiprotechnologies.com',
+	'website': 'https://emiprotechnologies.com',
 	'description': """
 	This module is for Localization demo purpose.
 	""",
@@ -14,5 +14,6 @@
 		'views/state_views.xml',
 		'views/city_views.xml',
 		'views/localization_menus.xml',
+		'data/localization_demo.xml',
 	],
 }
