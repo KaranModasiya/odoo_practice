@@ -247,7 +247,7 @@
 
 	<!--	Product - gpu    -->
 	<record id="product_gpu" model="product.ept">
-		<field name="name">ASUS ROG RTX 4090 24TB Graphics Card</field>
+		<field name="name">ASUS ROG RTX 4090 24GB Graphics Card</field>
 		<field name="sku">PRD5</field>
 		<field name="weight">3.65</field>
 		<field name="length">22.61</field>
