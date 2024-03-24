@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+	<record id="view_order_form_inherited" model="ir.ui.view">
+		<field name="name">sale.order.form.inherited</field>
+		<field name="model">sale.order</field>
+		<field name="inherit_id" ref="sale.view_order_form"/>
+		<field name="arch" type="xml">
+			<xpath expr="//button[@name='action_draft']" position="after">
+				<button name="action_manage_deposits" string="Manage Deposits" type="object" invisible="state not in ('sent', 'draft')"/>
+				<button name="action_confirm_and_validate" string="Confirm and Validate" type="object" class="btn btn-primary" invisible="state not in ('sent', 'draft')"/>
+			</xpath>
+			<xpath expr="//tree/field[@name='price_subtotal']" position="before">
+				<field name="manually_created" column_invisible="True"/>
+				<field name="history_unit_price"/>
+				<field name="warehouse_ept_id"/>
+				<field name="profit_value"/>
+				<field name="profit_margin_percentage"/>
+			</xpath>
+			<field name="has_active_pricelist" position="before">
+				<field name="crm_lead_ept_id" invisible="False"/>
+			</field>
+			<field name="sale_order_template_id" position="after">
+				<field name="product_template_ids" widget="many2many_tags" domain="[('detailed_type', '=', 'product')]"/>
+			</field>
+			<field name="payment_term_id" position="after">
+				<field name="is_all_picking_competed"/>
+				<field name="total_profit_value"/>
+				<field name="total_profit_percentage"/>
+			</field>
+			<xpath expr="//sheet/div" position="inside">
+				<button name="action_reserved_orderlines"
+					type="object"
+					string="Reserved Orderlines"
+					class="oe_stat_button"
+					icon="fa-bars"
+					invisible="state in ('draft', 'sent')">
+				</button>
+			</xpath>
+		</field>
+	</record>
+
+
+	<record id="sale_order_tree_inherited" model="ir.ui.view">
+		<field name="name">sale.order.tree.inherited</field>
+		<field name="model">sale.order</field>
+		<field name="inherit_id" ref="sale.sale_order_tree"/>
+		<field name="arch" type="xml">
+			<field name="invoice_status" position="after">
+				<field name="is_all_picking_competed"/>
+			</field>
+		</field>
+	</record>
+
+
+	<record id="sale_order_search_inherited" model="ir.ui.view">
+		<field name="name">sale.order.search.inherited</field>
+		<field name="model">sale.order</field>
+		<field name="inherit_id" ref="sale.view_sales_order_filter"/>
+		<field name="arch" type="xml">
+			<field name="analytic_account_id" position="after">
+				<filter name="filter_competed_orders" string="Complete Orders" domain="[('is_all_picking_competed', '=', True)]"/>
+			</field>
+		</field>
+	</record>
+</odoo>

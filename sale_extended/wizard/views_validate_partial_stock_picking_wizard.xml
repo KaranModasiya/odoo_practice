@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+	<record id="view_validate_partial_stock_picking_wizard_form" model="ir.ui.view">
+		<field name="name">validate.partial.stock.picking.wizard.form</field>
+		<field name="model">validate.partial.stock.picking</field>
+		<field name="arch" type="xml">
+			<form string="Validate Partial Stock Picking">
+				<sheet>
+					<group>
+						<field name="validate_percentage"/>
+					</group>
+				</sheet>
+				<footer>
+					<button name="action_validate_partial_picking" type="object" string="Validate" class="btn-primary"/>
+					<button string="Cancel" special="cancel"/>
+				</footer>
+			</form>
+		</field>
+	</record>
+
+
+	<record id="validate_partial_stock_picking_wizard_action" model="ir.actions.act_window">
+		<field name="name">Validate Partial Stock Picking</field>
+		<field name="res_model">validate.partial.stock.picking</field>
+		<field name="view_mode">form</field>
+		<field name="view_id" ref="sale_extended.view_validate_partial_stock_picking_wizard_form"/>
+		<field name="target">new</field>
+	</record>
+</odoo>

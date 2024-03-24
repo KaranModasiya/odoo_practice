@@ -1,0 +1,9 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_validate_stock_picking_sale_user,user: own document,model_validate_partial_stock_picking,sales_team.group_sale_salesman,1,0,0,0
+access_validate_stock_picking_sale_manager,manager: all document,model_validate_partial_stock_picking,sales_team.group_sale_manager,1,1,1,1
+,,,,,,,
+access_record_cancellation_user,user: own document,model_record_cancellation_ept,sales_team.group_sale_salesman,1,0,0,0
+access_record_cancellation_manager,manager: all document,model_record_cancellation_ept,sales_team.group_sale_manager,1,1,1,1
+,,,,,,,
+access_merge_sale_order_user,user: own document,model_merge_sale_order_wizard,sales_team.group_sale_salesman,1,0,0,0
+access_merge_sale_order_manager,manager: all document,model_merge_sale_order_wizard,sales_team.group_sale_manager,1,1,1,1

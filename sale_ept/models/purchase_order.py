@@ -14,7 +14,6 @@ class PurchaseOrder(models.Model):
 	state = fields.Selection(selection=[
 		('Draft', 'Draft'),
 		('Confirm', 'Confirm'),
-		('Done', 'Done'),
 		('Cancelled', 'Cancelled'),
 		], string="Status", help="Status of the purchase order", default='Draft')
 	purchase_order_line_ids = fields.One2many(comodel_name="purchase.order.line.ept", inverse_name="purchase_order_id", string="Partner Line", help="Purchase lines of the order")
@@ -67,3 +66,23 @@ class PurchaseOrder(models.Model):
 				})
 
 		self.state = 'Confirm'
+
+
+	def action_cancel_order_button(self):
+		self.state = 'Cancelled'
+
+
+	def action_view_delivery(self):
+		action = self.env['ir.actions.act_window']._for_xml_id("sale_ept.stock_picking_ept_incoming_action")
+		delivery_count = len(self.picking_ids.ids)
+
+		if not delivery_count:
+			raise ValidationError('No Records Found')
+
+		if delivery_count > 1:
+			action['domain'] = [('purchase_order_id', '=', self.id)]
+		elif delivery_count == 1:
+			action['views'] = [(self.env.ref('sale_ept.view_stock_picking_ept_form').id, 'form')]
+			action['res_id'] = self.picking_ids.ids[0]
+
+		return action

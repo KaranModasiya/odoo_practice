@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+	<record id="custom_tag" model="crm.tag">
+		<field name="name">From Lead</field>
+	</record>
+
+	<record id="product_shipping_charge" model="product.product">
+		<field name="name">Shipping Charge</field>
+		<field name="detailed_type">service</field>
+		<field name="list_price">5</field>
+		<field name="taxes_id" eval="[]"/>
+	</record>
+
+	<record id="product_deposit_charge" model="product.product">
+		<field name="name">Deposit Charge</field>
+		<field name="detailed_type">service</field>
+		<field name="list_price">5</field>
+		<field name="taxes_id" eval="[]"/>
+	</record>
+
+	<record id="product_deposit_charge_copy" model="product.product">
+		<field name="name">Deposit Charge 2</field>
+		<field name="detailed_type">service</field>
+		<field name="list_price">2</field>
+		<field name="taxes_id" eval="[]"/>
+	</record>
+</odoo>

@@ -5,6 +5,7 @@ class LocalizationState(models.Model):
 
 	_name = 'res.state.ept'
 	_description = 'Localization State Demo'
+	_rec_names_search = ['name', 'code']
 
 	name = fields.Char(string="Name", help="Name of the state")
 	code = fields.Char(string="Short Code", help="Short code of the state")
@@ -15,3 +16,8 @@ class LocalizationState(models.Model):
 	def check_code(self):
 		if self.search([('id', '!=', self.id), ('code', '=', self.code)]):
 			raise ValidationError('State code must be unique!')
+
+
+	def _compute_display_name(self):
+		for rec in self:
+			rec.display_name = f"{rec.name} - {rec.code}"

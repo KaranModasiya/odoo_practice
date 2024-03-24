@@ -31,7 +31,7 @@
 					<button name="action_start_inventory_button" string="Start Inventory" type="object" class="btn-primary" invisible="state != 'Draft'"/>
 					<button name="action_validate_inventory_button" string="Validate Inventory" type="object" class="btn-primary" invisible="state != 'In-Progress'"/>
 					<button name="action_cancel_inventory_button" string="Cancel Inventory" type="object" class="btn-primary" invisible="state in ('Done', 'Cancelled')"/>
-					<field name="state" widget="statusbar"/>
+					<field name="state" widget="statusbar" statusbar_visible="Draft,In-Progress,Done"/>
 				</header>
 				<sheet>
 					<group>

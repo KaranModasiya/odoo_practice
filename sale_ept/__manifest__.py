@@ -10,7 +10,9 @@
 	'data': [
 		'security/sale_security.xml',
 		'security/ir.model.access.csv',
+
 		'data/ir_sequence.xml',
+
 		'views/product_category_views.xml',
 		'views/product_uom_category_views.xml',
 		'views/product_uom_views.xml',
@@ -28,6 +30,8 @@
 		'views/stock_inventory_views.xml',
 		'views/account_tax_views.xml',
 		'views/sale_ept_menus.xml',
+
 		'data/sale_demo.xml',
 	],
+	'application': True,
 }

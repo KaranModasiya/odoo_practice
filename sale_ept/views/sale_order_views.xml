@@ -18,9 +18,8 @@
 				<field name="total_tax"/>
 				<field name="total_amount"/>
 				<field name="state" widget="badge"
-					   decoration-info="state == 'Confirmed'"
-					   decoration-success="state == 'Done'"
-					   decoration-warning="state == 'Draft'"
+					   decoration-info="state == 'Draft'"
+					   decoration-success="state == 'Confirmed'"
 					   decoration-danger="state == 'Cancelled'"/>
 			</tree>
 		</field>
@@ -35,7 +34,8 @@
 			<form string="Product UOM">
 				<header>
 					<button name="action_confirm_order_button" string="Confirm Order" type="object" class="btn-primary" invisible="state != 'Draft'"/>
-					<field name="state" widget="statusbar"/>
+					<button name="action_cancel_order_button" string="Cancel Order" type="object" invisible="state != 'Draft'"/>
+					<field name="state" widget="statusbar" statusbar_visible="Draft,Confirmed"/>
 				</header>
 				<sheet>
 					<div class="oe_button_box" name="button_box">
@@ -77,13 +77,14 @@
 					</group>
 					<notebook>
 						<page string="Orderlines">
-							<field name="order_line_ids">
+							<field name="order_line_ids" readonly="state != 'Draft'">
 								<tree>
-									<field name="product_id"/>
+									<field name="product_id" options="{'no_create': True, 'no_open': True}"/>
 									<field name="quantity"/>
-									<field name="unit_price"/>
 									<field name="uom_id"/>
+									<field name="unit_price"/>
 									<field name="subtotal_without_tax"/>
+									<field name="tax_ids" widget="many2many_tags" options="'no_create': True" readonly="True" force_save="True"/>
 									<field name="subtotal_with_tax"/>
 									<field name="warehouse_id" options="{'no_create': True, 'no_open': True}"/>
 								</tree>
@@ -95,17 +96,17 @@
 										<group>
 											<field name="product_id" options="{'no_create': True, 'no_open': True}"/>
 											<field name="quantity"/>
-											<field name="delivered_qty"/>
-											<field name="cancelled_qty"/>
-											<field name="pending_qty"/>
-											<field name="warehouse_id" options="{'no_create': True, 'no_open': True}"/>
+											<field name="subtotal_without_tax"/>
+											<field name="delivered_qty" invisible="state == 'Draft'"/>
+											<field name="pending_qty" invisible="state == 'Draft'"/>
+											<field name="warehouse_id" options="{'no_create': True, 'no_open': True}" invisible="state == 'Draft'"/>
 										</group>
 										<group>
 											<field name="uom_id" options="{'no_create': True, 'no_open': True}"/>
 											<field name="unit_price" readonly="1"/>
-											<field name="subtotal_without_tax"/>
-											<field name="tax_ids" widget="many2many_tags" options="'no_create': True" readonly="True" force_save="True"/>
 											<field name="subtotal_with_tax"/>
+											<field name="tax_ids" widget="many2many_tags" options="'no_create': True" readonly="True" force_save="True"/>
+											<field name="cancelled_qty" invisible="state == 'Draft'"/>
 										</group>
 									</group>
 									<group>

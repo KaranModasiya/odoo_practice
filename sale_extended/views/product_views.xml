@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+	<record id="product_template_only_form_view_inherited" model="ir.ui.view">
+		<field name="name">product.template.only.form.view.inherited</field>
+		<field name="model">product.product</field>
+		<field name="inherit_id" ref="product.product_normal_form_view"/>
+		<field name="arch" type="xml">
+			<field name="categ_id" position="after">
+				<field name="deposit_product_id"/>
+				<field name="deposit_product_qty"/>
+				<field name="deposit_product_id2"/>
+				<field name="deposit_product_qty2"/>
+			</field>
+		</field>
+	</record>
+</odoo>

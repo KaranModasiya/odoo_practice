@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+	<record id="view_record_cancellation_ept_form" model="ir.ui.view">
+		<field name="name">record.cancellation.ept.form</field>
+		<field name="model">record.cancellation.ept</field>
+		<field name="arch" type="xml">
+			<form string="Record Cancellation">
+				<sheet>
+					<field name="sale_order_ids" invisible="not sale_order_ids">
+						<tree>
+							<field name="name"/>
+							<field name="state" widget="badge"/>
+						</tree>
+					</field>
+					<field name="purchase_order_ids" invisible="not purchase_order_ids">
+						<tree>
+							<field name="name"/>
+							<field name="state" widget="badge"/>
+						</tree>
+					</field>
+					<field name="internal_transfer_ids" invisible="not internal_transfer_ids">
+						<tree>
+							<field name="name"/>
+							<field name="state" widget="badge"/>
+						</tree>
+					</field>
+				</sheet>
+				<footer>
+					<button name="action_cancel_records" type="object" string="Cancel Records" class="btn-primary"/>
+					<button string="Cancel" special="cancel"/>
+				</footer>
+			</form>
+		</field>
+	</record>
+
+
+	<record id="sale_order_cancellation_ept_action" model="ir.actions.act_window">
+		<field name="name">Sales Order Cancellation</field>
+		<field name="res_model">record.cancellation.ept</field>
+		<field name="view_mode">form</field>
+		<field name="view_id" ref="sale_extended.view_record_cancellation_ept_form"/>
+		<field name="binding_model_id" ref="sale.model_sale_order"/>
+		<field name="binding_view_types">tree,form</field>
+		<field name="target">new</field>
+	</record>
+
+
+	<record id="purchase_order_cancellation_ept_action" model="ir.actions.act_window">
+		<field name="name">Purchase Order Cancellation</field>
+		<field name="res_model">record.cancellation.ept</field>
+		<field name="view_mode">form</field>
+		<field name="view_id" ref="sale_extended.view_record_cancellation_ept_form"/>
+		<field name="binding_model_id" ref="purchase.model_purchase_order"/>
+		<field name="binding_view_types">tree,form</field>
+		<field name="target">new</field>
+	</record>
+
+
+	<record id="inventory_transfer_cancellation_ept_action" model="ir.actions.act_window">
+		<field name="name">Inventory Transfers Cancellation</field>
+		<field name="res_model">record.cancellation.ept</field>
+		<field name="view_mode">form</field>
+		<field name="view_id" ref="sale_extended.view_record_cancellation_ept_form"/>
+		<field name="binding_model_id" ref="stock.model_stock_picking"/>
+		<field name="binding_view_types">tree,form</field>
+		<field name="target">new</field>
+	</record>
+</odoo>

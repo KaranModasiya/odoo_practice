@@ -8,6 +8,7 @@ class CrmLeadLine(models.Model):
 
 	product_id = fields.Many2one(comodel_name="product.ept", string="Product Id", help="Product Id of the leadline")
 	name = fields.Text(string="Description", help="Description of the leadline")
+	unit_price = fields.Float(string="Unit Price", help="Pricr of the product", related="product_id.sale_price")
 	expected_sell_qty = fields.Float(string="Expected Sell Quantity", help="Expected sell quantity of the product", default=0)
 	uom_id = fields.Many2one(comodel_name="product.uom.ept", string="Product UOM", help="Unit of Measure of the product")
 	lead_id = fields.Many2one(comodel_name="crm.lead.ept", string="Lead Id", help="Lead Id of the leadline")

@@ -13,9 +13,8 @@
 				<field name="partner_id"/>
 				<field name="order_date"/>
 				<field name="state" widget="badge"
-					   decoration-warning="state == 'Draft'"
-					   decoration-info="state == 'Confirm'"
-					   decoration-success="state == 'Done'"
+					   decoration-info="state == 'Draft'"
+					   decoration-success="state == 'Confirm'"
 					   decoration-danger="state == 'Cancelled'"/>
 			</tree>
 		</field>
@@ -30,9 +29,19 @@
 			<form string="Purchase Order">
 				<header>
 					<button name="action_confirm_order_button" string="Confirm Order" type="object" class="btn-primary" invisible="state != 'Draft'"/>
-					<field name="state" widget="statusbar"/>
+					<button name="action_cancel_order_button" string="Cancel Order" type="object" invisible="state != 'Draft'"/>
+					<field name="state" widget="statusbar" statusbar_visible="Draft,Confirm"/>
 				</header>
 				<sheet>
+					<div class="oe_button_box" name="button_box">
+						<button name="action_view_delivery"
+							type="object"
+							class="oe_stat_button"
+							icon="fa-truck"
+							invisible="state == 'Draft'">
+							<field name="picking_ids" widget="statinfo" string="Delivery"/>
+						</button>
+					</div>
 					<div class="oe_title">
 						<h1><field name="name" readonly="1"/></h1>
 					</div>
@@ -47,8 +56,8 @@
 								<tree>
 									<field name="product_id"/>
 									<field name="quantity"/>
-									<field name="cost_price"/>
 									<field name="uom_id"/>
+									<field name="cost_price"/>
 									<field name="state" widget="badge"
 										   decoration-warning="state == 'Draft'"
 										   decoration-info="state == 'Confirm'"
@@ -86,7 +95,7 @@
 							</field>
 						</page>
 						<page string="Stock Pickings">
-							<field name="picking_ids">
+							<field name="picking_ids" readonly="state != 'Draft'">
 								<tree editable="bottom">
 									<field name="name"/>
 									<field name="transaction_date"/>

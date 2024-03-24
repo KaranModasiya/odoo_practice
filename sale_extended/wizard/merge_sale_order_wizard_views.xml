@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+	<record id="view_merge_sale_order_wizard_form" model="ir.ui.view">
+		<field name="name">merge.sale.order.wizard.form</field>
+		<field name="model">merge.sale.order.wizard</field>
+		<field name="arch" type="xml">
+			<form string="Merge Sale Orders">
+				<sheet>
+					<group>
+						<field name="merge_options" widget="radio"/>
+						<field name="sale_order_id"
+							   invisible="merge_options in ('merge_create_cancel', 'merge_create_delete')"
+							   required="merge_options in ('merge_exising_cancel', 'merge_exising_delete')"
+							   domain="[('id', 'in', sale_order_ids)]"/>
+					</group>
+					<notebook>
+						<page string="Sale Orders">
+							<field name="sale_order_ids" readonly="True">
+								<tree editable="bottom">
+									<field name="name"/>
+									<field name="partner_id"/>
+									<field name="date_order"/>
+									<field name="company_id"/>
+									<field name="amount_total"/>
+									<field name="state" widget="badge"
+										   decoration-info="state == 'draft'"/>
+								</tree>
+							</field>
+						</page>
+					</notebook>
+				</sheet>
+				<footer>
+					<button name="action_merge_sale_orders" type="object" string="Merge" class="btn-primary"/>
+					<button string="Cancel" special="cancel"/>
+				</footer>
+			</form>
+		</field>
+	</record>
+
+
+	<record id="merge_sale_order_wizard_action" model="ir.actions.act_window">
+		<field name="name">Merge Sale Orders</field>
+		<field name="res_model">merge.sale.order.wizard</field>
+		<field name="view_mode">form</field>
+		<field name="view_id" ref="sale_extended.view_merge_sale_order_wizard_form"/>
+		<field name="binding_model_id" ref="model_sale_order"/>
+		<field name="binding_view_types">tree</field>
+		<field name="target">new</field>
+	</record>
+</odoo>

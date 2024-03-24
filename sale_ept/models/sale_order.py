@@ -15,8 +15,8 @@ class SaleOrder(models.Model):
 	order_line_ids = fields.One2many(comodel_name="sale.order.line.ept", inverse_name="order_id", string="Order Lines", help="Order lines of the order")
 	saleperson_id = fields.Many2one(comodel_name="res.users", string="Sale Person", help="Sale person of the order")
 	state = fields.Selection(selection=[
-		('Draft', 'Draft'),
-		('Confirmed', 'Confirmed'),
+		('Draft', 'Quotation'),
+		('Confirmed', 'Sales Order'),
 		('Cancelled', 'Cancelled')
 		], string="Status", help="Status of the order", default="Draft")
 	total_weight = fields.Float(compute="_compute_total", string="Total Weight", help="Total weight of the order", digits=(6, 2))
@@ -92,7 +92,7 @@ class SaleOrder(models.Model):
 			self.partner_shipping_id = ''
 
 
-	# button actions
+	# Confirm order button
 	def action_confirm_order_button(self):
 		"""
 		To confirm sale order.
@@ -148,6 +148,7 @@ class SaleOrder(models.Model):
 		self.state = 'Confirmed'
 
 
+	# Cancel order button
 	def action_cancel_order_button(self):
 		self.state = 'Cancelled'
 
